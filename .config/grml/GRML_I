@@ -1,0 +1,260 @@
+PACKAGES install
+
+
+grml-live
+#grml-quickconfig-standard
+
+
+# base os
+apt ##
+binfmt-support
+bsdmainutils ##column, hexdump...
+#dctrl-tools ##
+devscripts ##
+dos2unix ##
+findutils ##find, xargs
+libnss-myhostname
+localepurge ##
+locales
+lsof
+mount ##
+#ntp
+#ntpdate   ##
+passwd ##
+procps ## ps, top, vmstat, w, kill, free, slabtop, skill
+psmisc ##fuser killall pstree peekfd
+#sudo ##
+#sysstat ##
+#sysvinit-utils ##killall5, pidof
+#tzdata
+util-linux ##chsh, mkfs, fsck, mount, more, su, dmesg, kill, umount....
+ltrace
+
+
+# disk subsystems support/debugging
+#disktype
+#dmraid
+#dmsetup
+#fai-setup-storage
+#lsscsi ##
+#mpt-status
+#nocache
+#scsitools
+#sg3-utils
+#smartmontools
+
+
+# disk partitioning/boot
+#boot-info-script
+#grub-pc-bin
+#gparted
+#lilo
+#mbr
+
+
+# filesystem support
+attr ##
+#btrfs-progs
+dosfstools ##dos
+e2fsprogs ##ext2,ext3,ext4
+#exfat-fuse
+exfat-utils ##fat
+genisoimage ##
+#jfsutils
+ntfs-3g ##ntfs
+
+
+# networking
+#atftp
+#dnsmasq
+#ethtool
+hostapd
+iproute2 ##
+iputils-ping ##
+iw ##
+isc-dhcp-client ##
+#libnss-mdns
+#netbase
+#rdnssd
+rfkill ##
+
+
+
+# shell
+bash
+bash-completion
+binutils
+buffer
+coreutils
+diffutils
+mawk
+#patch
+pv
+#screen
+#sed
+tmux
+trash-cli
+git
+tar
+unzip
+zip
+#curl
+wget
+#aria2
+xclip
+fzf
+highlight
+vim-nox
+alsa-utils
+#apulse
+#pulseaudio
+htop
+python-pip
+python3-pip
+python-pygments
+youtube-dl
+cpp
+gcc
+make
+pkg-config
+libx11-dev
+libxft-dev
+libxinerama-dev
+libxrandr-dev
+libxss-dev
+libgtk-3-dev
+astyle
+pylint
+shellcheck
+exuberant-ctags
+powertop
+
+
+# X
+grml-desktop
+grml-x
+#xauth
+xinit ##startx
+x11-utils
+x11-xserver-utils ##xset, xsetroot, xrandr, xrdb...
+hsetroot
+xfonts-75dpi
+#xfonts-base
+xserver-xorg
+xserver-xorg-core
+#xserver-xorg-video-all
+xserver-xorg-video-nouveau
+xserver-xorg-input-libinput
+xserver-xorg-input-evdev
+xserver-xorg-input-mouse
+xautolock
+i3lock-fancy
+feh
+#lxappearance
+zathura
+zathura-pdf-poppler
+#groff
+mpv
+mpd
+mpc
+falkon
+arc-theme
+sxhkd
+compton
+dunst
+libnotify-bin
+
+
+
+
+# x86 hardware support
+#cmospwd
+#cpufrequtils
+#cpuid
+#irqbalance
+lm-sensors
+#lshw
+#numactl
+#usbview
+intel-microcode
+
+
+PACKAGES install I386
+linux-image-i386-grml
+linux-cpupower
+
+
+PACKAGES install AMD64
+linux-image-amd64-grml
+linux-cpupower
+
+
+
+
+
+#cciss-vol-status
+#sdparm
+#multipath-tools
+#gdisk
+#nvme-cli
+#iotop
+#bridge-utils
+#lrzsz
+#ser2net
+#ndisc6
+#iputils-arping
+#iftop
+#iptstate
+#ifenslave
+#ifupdown
+#net-tools
+#tcpdump
+
+
+#ca-certificates
+#parted
+#cdebootstrap
+#crosshurd
+#debootstrap
+#kexec-tools
+#rinse
+
+#mtr-tiny
+#facter
+#tlp
+#trayer
+#mlocate
+#xserver-xorg-input-all
+#arandr
+#fonts-font-awesome
+#dunst
+#compton
+#sshfs
+#xorriso
+#telnet
+#mosh
+#ssh
+#memtester
+#puppet
+#stressant
+#lsb-release
+#xautolock
+#partclone
+#xautolock
+#man-db
+
+
+#libwebkit2gtk-4.0-dev
+#libgcr-3-dev
+#gstreamer1.0-plugins-base
+#gstreamer1.0-plugins-good
+#gstreamer1.0-plugins-ugly
+#gstreamer1.0-plugins-bad
+#gstreamer1.0-libav
+#gstreamer1.0-alsa
+
+
+#grml-paste
+#grml-terminalserver
+
+

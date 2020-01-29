@@ -1,0 +1,40 @@
+alt + shift + Return
+	$TERMINAL -e bash
+alt + q
+	$BROWSER
+alt + a
+	$TERMINAL -e alsamixer
+alt + p
+	dmenu_run -m 0 -fn "monospace:size=10" -nb "#fcfdfe" -nf "#363237" -sb "#363237" -sf "#fcfdfe"
+alt + s
+	notify-send ":STATUS:" "BRIGHTNESS: $(/root/.config/scripts/bright.sh)\nVOLUME: $(/root/.config/scripts/volume.sh)\nWLAN: $(/root/.config/scripts/wlan.sh --info)\nRAM: $(/root/.config/scripts/ram.sh)\nBATTERY: $(/root/.config/scripts/battery.sh)\nUPTIME: $(/root/.config/scripts/uptime.sh)\nMOUNTS: $(/root/.config/scripts/mounts.sh)\nTRASH:$(trash-list | wc -l)\nTIME: $(date "+DATE: %m/%d/%y TIME: %H:%M:%S")"
+
+# TMUX
+alt + space ; {0-9}
+	tmux has-session && tmux select-window -t {0-9}
+alt + space ; {x,c,w,d}
+	tmux has-session && tmux {kill-pane,new-window,choose-window,detach-client}
+alt + space ; {v,s}
+	tmux has-session && tmux split-window -{h,v}
+alt + space ; {h,j,k,l}
+	tmux has-session && tmux select-pane -{L,D,U,R}
+
+
+#{F3,F4}
+	#setxkbmap {ru,us}
+#{F5,F6}
+	#/root/.config/scripts/bright.sh {dec,inc} 5
+#{F7,F8}
+	#xset dpms force {off,on}
+#{F11,F12}
+	#/root/.config/scripts/volume.sh {dec,inc} 5
+#{F10}
+	#/root/.config/scripts/volume.sh toggle
+#super + s
+	#pkill -USR1 -x sxhkd
+#super + i
+	#$TERMINAL -e htop
+#super + x
+	#mpc pause; pauseallmpv; i3lock -e -f -c 1d2021; xset dpms force off
+#XF86Launch1
+	#xset dpms force off

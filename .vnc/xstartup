@@ -1,0 +1,24 @@
+#!/data/data/com.termux/files/usr/bin/sh
+## This file is executed during VNC server
+## startup.
+
+# Launch terminal emulator Aterm.
+# Requires package 'aterm'.
+#aterm -geometry 80x24+10+10 -ls &
+
+# Launch Tab Window Manager.
+# Requires package 'xorg-twm'.
+
+while true; do
+	xsetroot -name "$(date)"
+	sleep 1s
+done & 
+
+#pulseaudio --start &
+feh --bg-fill ~/ruby.png &
+dwm &
+
+#grml-x dwm
+
+
+

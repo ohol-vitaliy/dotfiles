@@ -1,0 +1,350 @@
+#!/bin/bash
+#alias -g G="| grep"
+#alias -g EG="| egrep"
+#alias -g L="| less"
+#alias -g M="| most"
+#alias -g BG="> /dev/null 2>&1 &"
+#alias -g NUL="> /dev/null 2>&1"
+#alias -g N="&>/dev/null"
+#alias -g 1N="1>/dev/null"
+#alias -g 2N="2>/dev/null"
+#alias -g DN="/dev/null"
+
+
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+alias ..2="cd ../.."
+alias ..3="cd ../../.."
+alias ..4="cd ../../../.."
+alias ..5="cd ../../../../.."
+alias ls="ls -lhF --color=always"
+alias la="ls -lah --color=always"
+alias ll="ls -lah --color=always"
+alias mkdir="mkdir -pv"
+alias cp="cp -Rv"
+alias cpr="cp -pR"
+alias du="du -d1 -h"
+alias dfk="df -PTakh"
+alias dfi="df -PTahi"
+alias free="free -h --total"
+alias cls='echo -ne "\033c"'
+alias da='date "+%A, %B %d, %Y [%T]"'
+alias hist="history | grep -i"
+alias path='echo -e ${PATH//:/\\n}'
+alias oo="xdg-open "
+alias psg="ps aux | grep -v grep | grep -i --color=auto"
+alias psu="ps aux | grep $USER | grep -v grep | grep -i --color=auto"
+alias ps10="ps aux --sort=-pcpu | head -n 10"
+alias mounts="mount | column -t"
+alias commands="compgen -ac"
+#alias proc='watch -n1 "ps axo %mem,pid,user,cmd | sort -nr | head -n 10"'
+alias dmesg="dmesg -T|sed -e 's|\\(^.*'$(date +%Y)']\\)\\(.*\\)|\\x1b[0;34m\\1\\x1b[0m-\\2|g'"
+alias reboot="systemctl reboot"
+alias off="systemctl poweroff"
+alias gg="ping 8.8.8.8"
+alias gping="ping 8.8.8.8"
+alias swap="dd if=/dev/zero of=/swapfile bs=1024 count=1024000;mkswap /swapfile; swapon /swapfile"
+alias monon="xset dpms force on"
+alias monoff="xset dpms force off"
+alias get-network-interfaces="ip link show | egrep -o '[0-9]*: .*:' | tr -d ' ' | cut -d: -f2"
+
+
+
+if command -v pacman >/dev/null 2>&1; then
+	echo "Using PACMAN package manager"
+	alias paci="pacman -S"
+	alias pacr="pacman -Rs"
+	alias pacs="pacman -Ss"
+	alias pacu="pacman -Syu"
+	alias pacc="pacman -Sc; pacman -Qdtq | pacman -Rs -"
+	alias pacl="pacman -Q"
+	alias pacl-auto="pacman -Qd"
+	alias pacl-manual="pacman -Qe"
+elif command -v apt >/dev/null 2>&1; then
+	echo "Using APT package manager"
+	alias paci="apt install"
+	alias paci-deb="dpkg -i"
+	alias pacr="apt remove"
+	alias pacs="apt search"
+	alias pacu="apt update && apt upgrade"
+	alias pacc="apt autoclean && apt autoremove"
+	alias pacl="dpkg -l"
+	alias pacl-auto="apt-mark showauto"
+	alias pacl-manual="apt-mark showmanual"
+	alias pac-auto2manual="apt-mark showauto | xargs -n 1 apt-mark manual"
+fi
+
+
+if command -v gnugo >/dev/null 2>&1; then
+	alias go9="gnugo --boardsize 9  --color black --komi 0 --chinese-rule"
+	alias go13="gnugo --boardsize 13 --color black --komi 0 --chinese-rule"
+	alias go19="gnugo --boardsize 19 --color black --komi 0 --chinese-rule"
+else
+	echo 'GNUGO not installed'
+fi
+
+
+if command -v youtube-dl >/dev/null 2>&1; then
+	alias yt-playlist="youtube-dl -cit -f best --yes-playlist"
+	alias yt-video="youtube-dl -cit -f best"
+	alias yt-audio="youtube-dl -x --audio-format mp3"
+else
+	echo 'YOUTUBE-DL not installed'
+fi
+
+
+if command -v trash >/dev/null 2>&1; then
+	alias rm="trash-put"
+	alias rm-put="trash-put"
+	alias rm-list="trash-list"
+	alias rm-empty="trash-empty"
+	alias rm-clear="trash-empty"
+	alias rm-restore="trash-restore"
+else
+	echo 'TRASH-CLI not installed'
+fi
+
+
+if command -v tmux >/dev/null 2>&1; then
+	alias tt="tmux attach-session || tmux"
+	alias tmuxi="tmux attach-session || tmux"
+	alias tmuxk="tmux kill-session -t"
+	alias tmuxn="tmux new-session -s"
+	alias tmuxl="tmux list-sessions"
+	alias tmuxa="tmux -2 attach-session -d -t"
+else
+	echo "TMUX not installed..."
+fi
+
+
+if command -v git >/dev/null 2>&1; then
+	alias gc="git commit"
+	alias gca="git commit --amend"
+	alias ga="git add"
+	alias gd="git diff"
+	alias gs="git status"
+	alias gl="git log --oneline --abbrev-commit --branches"
+	alias glg="git log --oneline --graph --abbrev-commit --branches"
+	alias gpl="git pull"
+	alias gpsh="git push"
+else
+	echo "GIT not installed..."
+fi
+
+
+if command -v nano >/dev/null 2>&1; then
+	alias nano="nano -c -$"
+else
+	echo 'NANO not installed'
+fi
+
+
+if command -v wget >/dev/null 2>&1; then
+	alias wget="wget -N -c"
+else
+	echo 'WGET not installed'
+fi
+
+
+if command -v xclip >/dev/null 2>&1; then
+	alias c="xclip -selection clipboard"
+	alias p="xclip -selection clipboard -o"
+else
+	echo 'XCLIP not installed'
+fi
+
+
+if command -v nmap >/dev/null 2>&1; then
+	scan-for-port(){ nmap -sS -O -p "$1" "$2" ;}
+else
+	echo 'NMAP not installed'
+fi
+
+
+if command -v s2ram >/dev/null 2>&1; then
+	alias sus="s2ram -f -a 1"
+	alias hibernate="s2disk"
+else 
+	echo 'S2RAM/S2DISK not installed...'
+	alias sus="systemctl suspend"
+	alias hibernate="systemctl hibernate"
+fi
+
+
+if command -v curl >/dev/null 2>&1; then
+	alias myip="curl ifconfig.me/ip"
+	alias myhost="curl ifconfig.me/host"
+	alias wttr="curl wttr.in/warszawa" 
+else
+	echo "CURL not installed..."
+fi
+
+
+if command -v vboxmanage >/dev/null 2>&1; then
+	alias vbox-list="vboxmanage list vms"
+	alias vbox-start="vboxmanage startvm"
+else
+	echo 'VirtualBox not installed'
+fi
+
+
+if command -v fzf >/dev/null 2>&1; then
+	fuz-hist() {
+		eval "$(history | cut -c 8- | uniq | fzf +s --tac)"
+	}
+
+
+	fuz-cd() {
+		local dir
+		dir=$(find "${1:-.}" -type d 2>/dev/null | fzf --border --preview "ls {}") && cd "$dir" || echo "Error"
+	}
+
+
+	fuz-edit() {
+		local file
+		file=$(find "${1:-.}" -type f 2>/dev/null | fzf --border --preview '[[ $(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=numbers --color=always {} || highlight -O ansi -l {} || coderay {} || rougify {} || cat {}) 2> /dev/null | head -500' && vim "$file")
+	}
+
+
+	fuz-kill() {
+		local pid
+		pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+		if [ "x$pid" != "x" ]
+		then
+		echo "$pid" | xargs kill -"${1:-9}"
+		fi
+	}
+
+
+	if command -v git >/dev/null 2>&1; then
+		gc_commit() {
+			local commits branches choices choice
+			commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
+			branches=$(git branch --all | grep -v HEAD | sed "s/[* ] //" | sed "s#remotes/##") &&
+			choices=( "$commits\\n$branches" ) &&
+			choice=$(echo -e "$choices" | fzf --tac +s +m -e) &&
+			git checkout $(echo "$choice" | sed "s/ .*//")
+		}
+	fi
+else
+	echo "FZF not installed..."
+fi
+
+
+
+killallproc(){ pgrep "$1" | xargs kill -9 ;}
+mu() { rm -r /mnt/"${1:?}" ; mkdir /mnt/"$1" && mount /dev/"$1" /mnt/"$1" && cd /mnt/"$1" || echo "Error" ;}
+uu() { umount /mnt/"$1" ; rm -rf /mnt/"${1:?}" ;}
+users(){ id "$1" | tr ' ' '\n' | sed 's/(/ (/g'| sed 's/=/ = /g' | sed 's/,/,\n\t /g' ;}
+# http://www.commandlinefu.com/commands/view/954
+
+
+man(){
+  env LESS_TERMCAP_mb=$'\E[01;31m' \
+  LESS_TERMCAP_md=$'\E[01;31m' \
+  LESS_TERMCAP_me=$'\E[0m' \
+  LESS_TERMCAP_se=$'\E[0m' \
+  LESS_TERMCAP_so=$'\E[01;44;33m' \
+  LESS_TERMCAP_ue=$'\E[0m' \
+  LESS_TERMCAP_us=$'\E[01;32m' \
+  man "$@"
+}
+
+
+ex ()
+{
+  if [ -f "$1" ] ; then
+    case "$1" in
+      *.tar.bz2)   tar xjf "$1"     ;;
+      *.tar.gz)    tar xzf "$1"     ;;
+      *.tar.xz)    tar xvJf "$1"    ;;
+      *.bz2)       bunzip2 "$1"     ;;
+      *.rar)       unrar x "$1"     ;;
+      *.gz)        gunzip "$1"      ;;
+      *.tar)       tar xf "$1"      ;;
+      *.tbz2)      tar xjf "$1"     ;;
+      *.tgz)       tar xzf "$1"     ;;
+      *.zip)       unzip "$1"       ;;
+      *.Z)         uncompress "$1"  ;;
+      *.7z)        7z x "$1"        ;;
+      *.lzma)      unlzma "$1"      ;;
+      *.xz)        unxz "$1"        ;;
+      *.exe)       cabextract "$1"  ;;
+      *)           echo "extract: '$1' - unknown archive method" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+
+compr()
+{
+	dirPriorToExe=$(pwd)
+	dirName=$(dirname "$1")
+	baseName=$(basename "$1")
+	if [ -f "$1" ] ; then
+		echo "It was a file change directory to $dirName"
+		cd "$dirName" || return 1
+		case $2 in
+			tar.bz2)
+			tar cjf "$baseName".tar.bz2 "$baseName"
+			;;
+			tar.gz)
+			tar czf "$baseName".tar.gz "$baseName"
+			;;
+			gz)
+			gzip "$baseName"
+			;;
+			tar)
+			tar -cvvf "$baseName".tar "$baseName"
+			;;
+			zip)
+			zip -r "$baseName".zip "$baseName"
+			;;
+			*)
+			echo "Method not passed compressing using tar.bz2"
+			tar cjf "$baseName".tar.bz2 "$baseName"
+			;;
+			esac
+		echo "Back to Directory $dirPriorToExe"
+		cd "$dirPriorToExe" || return 1
+	else
+		if [ -d "$1" ] ; then
+			echo "It was a Directory change directory to $dirName"
+			cd "$dirName" || return 1
+			case $2 in
+				tar.bz2)
+				tar cjf "$baseName".tar.bz2 "$baseName"
+				;;
+				tar.gz)
+				tar czf "$baseName".tar.gz "$baseName"
+				;;
+				gz)
+				gzip -r "$baseName"
+				;;
+				tar)
+				tar -cvvf "$baseName".tar "$baseName"
+				;;
+				zip)
+				zip -r "$baseName".zip "$baseName"
+				;;
+				*)
+				echo "Method not passed compressing using tar.bz2"
+				tar cjf "$baseName".tar.bz2 "$baseName"
+				;;
+			esac
+			echo "Back to Directory $dirPriorToExe"
+			cd "$dirPriorToExe" || return 1
+		else
+			echo "'$1' is not a valid file/folder"
+		fi
+	fi
+	echo "Done"
+	echo "###########################################"
+}
+
+

@@ -1,0 +1,11 @@
+PACKAGES remove
+nano
+vim-tiny
+#sed
+#ifupdown
+#xorriso
+vlc-data
+vlc-plugin-base
+vlc-plugin-video-output
+#gnome-themes-extra
+#gnome-themes-extra-data
