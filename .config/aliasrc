@@ -1,0 +1,524 @@
+#!/bin/bash
+#
+if [ -x /usr/bin/dircolors ]; then
+    test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+    alias dir='dir —color=auto'
+    alias vdir='vdir —color=auto'
+    alias grep='grep --color=auto'
+    alias fgrep='fgrep --color=auto'
+    alias egrep='egrep --color=auto'
+fi
+
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+alias ..2="cd ../.."
+alias ..3="cd ../../.."
+alias ..4="cd ../../../.."
+alias ..5="cd ../../../../.."
+alias mkdir="mkdir -pv"
+alias cp="cp -riv"
+alias mv="mv -iv"
+alias rm="rm -driv"
+alias du="du -d1 -h"
+alias dfk="df -PTahk"
+alias dfi="df -PTahi"
+alias free="free -h --total"
+alias cls='echo -ne "\033c"'
+alias da='date "+%A, %B %d, %Y [%T]"'
+alias hist="history | grep -i"
+alias path='echo -e ${PATH//:/\\n}'
+alias oo="xdg-open "
+alias psg="ps aux | grep -v grep | grep -i --color=auto"
+alias psu="ps aux | grep $USER | grep -v grep | grep -i --color=auto"
+alias ps10="ps aux --sort=-pcpu | head -n 10"
+alias mounts="mount | column -t"
+alias commands="compgen -ac"
+alias dmesg="dmesg -T|sed -e 's|\\(^.*'$(date +%Y)']\\)\\(.*\\)|\\x1b[0;34m\\1\\x1b[0m-\\2|g'"
+alias gg="ping 8.8.8.8"
+alias gping="ping 8.8.8.8"
+alias swap="dd if=/dev/zero of=/swapfile bs=1024 count=1024000;mkswap /swapfile; swapon /swapfile"
+alias monon="xset dpms force on"
+alias monoff="xset dpms force off"
+alias get-network-interfaces="ip link show | egrep -o '[0-9]*: .*:' | tr -d ' ' | cut -d: -f2"
+
+init_system=$(ps -p 1 -o comm=)
+if [ "$init_system" = "busybox" ]; then
+	alias reboot="sudo busybox reboot"
+	alias off="sudo busybox poweroff"
+elif [ "$init_system" = "systemd" ]; then
+	alias reboot="sudo systemctl reboot"
+	alias off="sudo systemctl poweroff"
+fi
+
+function ps-usage {
+	ps -eo size,pid,user,command --sort -size \
+		| awk '$4 ~ /^\[/ { next; } { hr=$1/1024 ; printf("%13.2f Mb ",hr) } { for ( x=4 ; x<=NF ; x++ ) { printf("%s ", $x) } print "" }' \
+		| cut -d "" -f2
+}
+
+# s-google() {
+# 	$TBROWSER $(echo "https://www.google.com/search?q=$@" | sed "s/ /+/g")
+# }
+# s-duck() {
+# 	$TBROWSER $(echo "https://www.duckduckgo.com/?q=$@" | sed "s/ /+/g")
+# }
+# s-github() {
+# 	$TBROWSER $(echo "https://www.github.com/search?q=$@" | sed "s/ /+/g")
+# }
+# s-stack() {
+# 	$TBROWSER $(echo "https://www.stackoverflow.com/search?q=$@" | sed "s/ /+/g")
+# }
+# s-reddit() {
+# 	$TBROWSER $(echo "https://www.reddit.com/search?q=$@" | sed "s/ /+/g")
+# }
+# 
+# s-wiki() {
+# 	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\!w $@" | sed "s/ /+/g")
+# }
+# 
+# s-news() {
+# 	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\!n $@" | sed "s/ /+/g")
+# }
+# 
+# s-yt() {
+# 	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\!yt $@" | sed "s/ /+/g")
+# }
+# 
+# s-youtube() {
+# 	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\!yt $@" | sed "s/ /+/g")
+# }
+# 
+# s-map() {
+# 	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\!m $@" | sed "s/ /+/g")
+# }
+# 
+# s-image() {
+# 	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\!i $@" | sed "s/ /+/g")
+# }
+# 
+# s-ducky() {
+# 	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\! $@" | sed "s/ /+/g")
+# }
+
+if command -v doas >/dev/null 2>&1; then
+	root_cmd='doas'
+elif command -v sudo >/dev/null 2>&1; then
+	root_cmd='sudo'
+else
+	root_cmd=''
+fi
+
+alias sudo="$root_cmd " # sudo to work with aliases
+
+if command -v info >/dev/null 2>&1; then
+	alias info='info --vi-keys'
+fi
+
+if command -v pacman >/dev/null 2>&1; then
+	echo "Using PACMAN package manager"
+	alias paci="$root_cmd pacman -S"
+	alias pacr="$root_cmd pacman -Rs"
+	alias pacs="$root_cmd pacman -Ss"
+	alias pacu="$root_cmd pacman -Syu"
+	alias pacc="$root_cmd pacman -Sc; $root_cmd pacman -Qdtq | $root_cmd pacman -Rs -"
+	alias pacl="$root_cmd pacman -Q"
+	alias pacl-auto="$root_cmd pacman -Qd"
+	alias pacl-manual="$root_cmd pacman -Qe"
+elif command -v apt >/dev/null 2>&1; then
+	echo "Using APT package manager"
+	alias paci="$root_cmd apt install"
+	alias paci-deb="$root_cmd dpkg -i"
+	alias pacr="$root_cmd apt purge"
+	alias pacs="$root_cmd apt search"
+	alias pacu="$root_cmd apt update && $root_cmd apt upgrade"
+	alias pacc="$root_cmd apt autoclean && $root_cmd apt autoremove"
+	alias pacl="$root_cmd dpkg -l"
+	alias pacl-auto="$root_cmd apt-mark showauto"
+	alias pacl-manual="$root_cmd apt-mark showmanual"
+	alias pac-auto2manual="$root_cmd apt-mark showauto | xargs -n 1 $root_cmd apt-mark manual"
+elif command -v pkg >/dev/null 2>&1; then
+	echo "Using PKG package manager"
+	alias paci="pkg install"
+	alias pacr="pkg purge"
+	alias pacs="pkg search"
+	alias pacu="pkg update && pkg upgrade"
+	alias pacc="pkg autoclean && pkg autoremove"
+fi
+
+if command -v emacs-nox >/dev/null 2>&1; then
+	alias emacsd='emacs-nox --daemon'
+	alias emad='emacs-nox --daemon'
+	alias emd='emacs-nox --daemon'
+elif command -v emacs >/dev/null 2>&1; then
+	alias emacsd='emacs --daemon'
+	alias emad='emacs --daemon'
+	alias emd='emacs --daemon'
+fi
+
+if command -v emacsclient >/dev/null 2>&1; then
+	alias em=emacsclient
+fi
+
+if command -v ledger >/dev/null 2>&1; then
+	alias ledger="ledger --pedantic"
+fi
+
+if command -v nvim >/dev/null 2>&1; then
+	alias vim="nvim"
+elif command -v vim.nox >/dev/null 2>&1; then
+	alias vim="vim.nox"
+elif command -v vim.tiny >/dev/null 2>&1; then
+	alias vim="vim.tiny"
+elif command -v vim >/dev/null 2>&1; then
+	alias vim="vim"
+fi
+
+
+if command -v rg >/dev/null 2>&1; then
+	alias grep=rg
+else
+	echo "RIPGREP is not installed"
+fi
+
+if command -v remind >/dev/null 2>&1; then
+	alias remind="remind -b1 -m -@2"
+	alias rem="rem -b1 -m -@2"
+else
+	echo "REMIND is not installed"
+fi
+
+if command -v bat >/dev/null 2>&1; then
+	alias cat=bat
+elif command -v batcat >/dev/null 2>&1; then
+	alias cat=batcat
+else
+	echo "BAT is not installed"
+fi
+
+if command -v exa >/dev/null 2>&1; then
+	alias ls="exa -lh"
+	alias la="exa -lah"
+	alias ll="exa -lah"
+else
+	echo "EXA is not installed"
+	alias ls="ls -lhF --color=always"
+	alias la="ls -lah --color=always"
+	alias ll="ls -lah --color=always"
+fi
+
+if command -v docker >/dev/null 2>&1; then
+	ddu(){ docker compose -f "$1" up -d --build ; };
+	ddd(){ docker compose -f "$1" down ; };
+	ddr(){ docker compose -f "$1" restart ; };
+	alias ddstop="docker stop"
+	alias ddstart="docker start"
+	alias ddlog="docker logs"
+	alias ddexec="docker run"
+	alias ddrun="docker run"
+	alias ddps="docker ps"
+	alias ddpsi="docker ps --format \"{{.Image}}\""
+	alias ddpsn="docker ps --format \"{{.Names}}\""
+else
+	echo 'DOCKER is not installed'
+fi
+
+if command -v tmux >/dev/null 2>&1; then
+	tmux_cmd="tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf"
+	alias tt="$tmux_cmd attach-session || $tmux_cmd"
+	alias tmuxi="$tmux_cmd attach-session || $tmux_cmd"
+	alias tmuxk="$tmux_cmd kill-session -t"
+	alias tmuxn="$tmux_cmd new-session -s"
+	alias tmuxl="$tmux_cmd list-sessions"
+	alias tmuxa="$tmux_cmd -2 attach-session -d -t"
+else
+	echo "TMUX is not installed"
+fi
+
+
+if command -v git >/dev/null 2>&1; then
+	alias gc="git commit"
+	alias gca="git commit --amend"
+	alias ga="git add"
+	alias gd="git diff"
+	alias gs="git status"
+	alias gl="git log --oneline --abbrev-commit --branches"
+	alias glg="git log --oneline --graph --abbrev-commit --branches"
+	alias gpl="git pull"
+	alias gpsh="git push"
+	alias gclean="git remote prune origin && git repack && git prune-packed && git reflog expire --expire=1.month.ago && git gc --aggressive"
+	alias gsquashall="git reset $(git commit-tree HEAD^{tree} -m 'init')"
+else
+	echo "GIT is not installed"
+fi
+
+
+if command -v nano >/dev/null 2>&1; then
+	alias nano="nano -c -$"
+else
+	echo 'NANO is not installed'
+fi
+
+
+if command -v wget >/dev/null 2>&1; then
+	alias wget="wget -N -c"
+else
+	echo 'WGET is not installed'
+fi
+
+if command -v nmap >/dev/null 2>&1; then
+	scan-for-port(){ nmap -sS -O -p "$1" "$2" ;}
+else
+	echo 'NMAP is not installed'
+fi
+
+if command -v s2ram >/dev/null 2>&1; then
+	alias sus="s2ram -f -a 1"
+	alias hibernate="s2disk"
+else 
+	echo 'S2RAM/S2DISK are not installed'
+	alias sus="sudo systemctl suspend"
+	alias hibernate="sudo systemctl hibernate"
+fi
+
+if command -v curl >/dev/null 2>&1; then
+	alias myip="curl ifconfig.me/ip"
+	alias myhost="curl ifconfig.me/host"
+	wttr() { curl "wttr.in/$1" ; };
+else
+	echo "CURL is not installed"
+fi
+
+
+if command -v info >/dev/null 2>&1; then
+	alias info="info --vi-keys"
+fi
+
+if command -v python3 >/dev/null 2>&1; then
+	alias calc='python3 -ic "from math import *; from random import *"'
+	alias py='python3'
+fi
+
+
+if command -v fzf >/dev/null 2>&1; then
+	function h {
+		eval "$(history | cut -c 8- | uniq | fzf +s --tac)"
+	}
+
+	function c {
+		local dir
+		dir=$(find -L "${1:-.}" \
+			-name .git -prune \
+			-o -name .vim -prune \
+			-o -type d -print 2>/dev/null \
+			| fzf --border --preview "ls {}") \
+			&& cd "$dir" \
+			|| echo "Cancelling.."
+	}
+
+	function e {
+		local file
+		file=$(find -L "${1:-.}" \
+			-name .git -prune \
+			-o -name .vim -prune \
+			-o -name *.o -prune \
+			-o -name *.su -prune \
+			-o -name *.d -prune \
+			-o -name *.pyc -prune \
+			-o -name *.elf -prune \
+			-o -name *.mp3 -prune \
+			-o -name *.ogg -prune \
+			-o -name *.mp4 -prune \
+			-o -name *.avi -prune \
+			-o -type f -print 2>/dev/null \
+			| fzf --border --preview \
+			'[[ $(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=numbers --color=always {} || batcat --style=numbers --color=always {} || highlight -O ansi -l {} || coderay {} || rougify {} || cat {}) 2> /dev/null | head -500') \
+		&& $EDITOR "$file" \
+		|| echo "Cancelling.."
+	}
+
+	function k {
+		local pid
+		pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
+
+		if [ "x$pid" != "x" ]; then
+			echo "$pid" | xargs kill -"${1:-9}"
+		fi
+	}
+
+	if command -v git >/dev/null 2>&1; then
+		function gc_commit {
+			local commits branches choices choice
+			commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
+			branches=$(git branch --all | grep -v HEAD | sed "s/[* ] //" | sed "s#remotes/##") &&
+			choices=( "$commits\\n$branches" ) &&
+			choice=$(echo -e "$choices" | fzf --tac +s +m -e) &&
+			git checkout $(echo "$choice" | sed "s/ .*//")
+		}
+	fi
+else
+	echo "FZF is not installed"
+fi
+
+
+
+function encr {
+	openssl enc -aes-256-cbc -pbkdf2 -in "$1" -out "$1.encr"
+}
+
+function decr {
+	if [[ "$1" == *.encr ]]; then
+		openssl enc -d -aes-256-cbc -pbkdf2 -in "$1" -out "${1:0:-5}"
+	else
+		echo "File do end with .encr extension"
+	fi
+}
+
+
+
+# kill all processes using regex patterns
+# very usefull when you wan't to completely smash that BLOAT Chrome browser,
+# or milion instances of your buggy multiprocess app :P
+function killallproc { 
+	pgrep "$1" | xargs kill -9 
+}
+
+# I like to mount everything in mnt folder so created two funcs:
+# Mount Unit and Unmount Unit
+# && and || are essential at that places
+function mu { 
+	sudo rm -r /mnt/"${1:?}"
+	sudo mkdir /mnt/"$1" \
+		&& sudo mount /dev/"$1" /mnt/"$1" \
+		&& cd /mnt/"$1" \
+		|| echo "Error"
+}
+function uu { 
+	sudo umount /mnt/"$1"
+	sudo rm -rf /mnt/"${1:?}"
+}
+
+# beautify users list
+function users { 
+	id "$1" \
+	| tr ' ' '\n' \
+	| sed 's/(/ (/g' \
+	| sed 's/=/ = /g' \
+	| sed 's/,/,\n\t /g'
+}
+# http://www.commandlinefu.com/commands/view/954
+
+
+# colorize man output
+function man {
+  env LESS_TERMCAP_mb=$'\E[01;31m' \
+  LESS_TERMCAP_md=$'\E[01;31m' \
+  LESS_TERMCAP_me=$'\E[0m' \
+  LESS_TERMCAP_se=$'\E[0m' \
+  LESS_TERMCAP_so=$'\E[01;44;33m' \
+  LESS_TERMCAP_ue=$'\E[0m' \
+  LESS_TERMCAP_us=$'\E[01;32m' \
+  man "$@"
+}
+
+
+# extract archive
+# syntax: ex <path to archive> (example: ex test.zip)
+function ex {
+  if [ -f "$1" ] ; then
+    case "$1" in
+      *.tar.bz2)   tar xjf "$1"     ;;
+      *.tar.gz)    tar xzf "$1"     ;;
+      *.tar.xz)    tar xvJf "$1"    ;;
+      *.bz2)       bunzip2 "$1"     ;;
+      *.rar)       unrar x "$1"     ;;
+      *.gz)        gunzip "$1"      ;;
+      *.tar)       tar xf "$1"      ;;
+      *.tbz2)      tar xjf "$1"     ;;
+      *.tgz)       tar xzf "$1"     ;;
+      *.zip)       unzip "$1"       ;;
+      *.Z)         uncompress "$1"  ;;
+      *.7z)        7z x "$1"        ;;
+      *.lzma)      unlzma "$1"      ;;
+      *.xz)        unxz "$1"        ;;
+      *.exe)       cabextract "$1"  ;;
+      *)           echo "extract: '$1' - unknown archive method" ;;
+    esac
+  else
+    echo "'$1' is not a valid file"
+  fi
+}
+
+
+# compress file or folder
+# syntax: compr <FILE/FOLDER> <TYPE ex. zip, tar, rar>
+# (example: compr test_folder zip)
+function compr {
+	dirPriorToExe=$(pwd)
+	dirName=$(dirname "$1")
+	baseName=$(basename "$1")
+
+	if [ -f "$1" ] ; then
+		echo "It was a file change directory to $dirName"
+		cd "$dirName" || return 1
+
+		case $2 in
+			tar.bz2)
+			tar cjf "$baseName".tar.bz2 "$baseName"
+			;;
+			tar.gz)
+			tar czf "$baseName".tar.gz "$baseName"
+			;;
+			gz)
+			gzip "$baseName"
+			;;
+			tar)
+			tar -cvvf "$baseName".tar "$baseName"
+			;;
+			zip)
+			zip -r "$baseName".zip "$baseName"
+			;;
+			*)
+			echo "Method not passed compressing using tar.bz2"
+			tar cjf "$baseName".tar.bz2 "$baseName"
+			;;
+			esac
+		echo "Back to Directory $dirPriorToExe"
+		cd "$dirPriorToExe" || return 1
+	else
+		if [ -d "$1" ] ; then
+			echo "It was a Directory change directory to $dirName"
+			cd "$dirName" || return 1
+
+			case $2 in
+				tar.bz2)
+				tar cjf "$baseName".tar.bz2 "$baseName"
+				;;
+				tar.gz)
+				tar czf "$baseName".tar.gz "$baseName"
+				;;
+				gz)
+				gzip -r "$baseName"
+				;;
+				tar)
+				tar -cvvf "$baseName".tar "$baseName"
+				;;
+				zip)
+				zip -r "$baseName".zip "$baseName"
+				;;
+				*)
+				echo "Method not passed compressing using tar.bz2"
+				tar cjf "$baseName".tar.bz2 "$baseName"
+				;;
+			esac
+			echo "Back to Directory $dirPriorToExe"
+			cd "$dirPriorToExe" || return 1
+		else
+			echo "'$1' is not a valid file/folder"
+		fi
+	fi
+	echo "Done"
+	echo "###########################################"
+}
