@@ -1,0 +1,202 @@
+#!/usr/bin/env sh
+# shellcheck disable=SC2034
+
+# if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
+# 	export TERM='gnome-256color'
+# elif infocmp xterm-256color >/dev/null 2>&1; then
+# 	export TERM='xterm-256color'
+# fi
+
+if tput setaf 1 >/dev/null 2>&1; then
+	tput sgr0 # reset colors
+	bold=$(tput bold)
+	reset=$(tput sgr0)
+	# Solarized colors, taken from http://git.io/solarized-colors.
+	black=$(tput setaf 0)
+	blue=$(tput setaf 33)
+	cyan=$(tput setaf 37)
+	green=$(tput setaf 64)
+	orange=$(tput setaf 166)
+	purple=$(tput setaf 125)
+	red=$(tput setaf 124)
+	violet=$(tput setaf 61)
+	white=$(tput setaf 15)
+	yellow=$(tput setaf 136)
+else
+	bold=''
+	reset='\033[0m'
+	black='\033[1;30m'
+	blue='\033[1;34m'
+	cyan='\033[1;36m'
+	green='\033[1;32m'
+	orange='\033[1;33m'
+	purple='\033[1;35m'
+	red='\033[1;31m'
+	violet='\033[1;35m'
+	white='\033[1;37m'
+	yellow='\033[1;33m'
+fi
+
+_venv_info() {
+	[ -z "$VIRTUAL_ENV" ] && return
+	printf '%s ' "${cyan}[$(basename "$VIRTUAL_ENV")]${reset}"
+}
+
+_short_pwd() {
+	case "$PWD" in
+	"$HOME")
+		printf '%s' "${green}~${reset}"
+		;;
+	"$HOME"/*)
+		printf '%s' "${green}~${PWD#"$HOME"}${reset}"
+		;;
+	*)
+		printf '%s' "${green}$PWD${reset}"
+		;;
+	esac
+}
+
+_user_info() {
+	_user="${USER:-$(id -un)}"
+	case "$_user" in
+	root | admin)
+		printf '%s' "${red}$_user${reset}"
+		;;
+	*)
+		printf '%s' "${blue}$_user${reset}"
+		;;
+	esac
+}
+
+# _git_info() {
+# 	# Bail out fast if git is missing or we're not in a repo
+# 	command -v git >/dev/null 2>&1 || return
+# 	git rev-parse --git-dir >/dev/null 2>&1 || return
+
+# 	# Branch name, fallback to short SHA (detached HEAD)
+# 	branch=$(git symbolic-ref --short HEAD 2>/dev/null) ||
+# 		branch=$(git rev-parse --short HEAD 2>/dev/null) || return
+
+# 	flags=''
+
+# 	# Staged changes
+# 	git diff --cached --quiet 2>/dev/null || flags="${flags}+"
+
+# 	# Unstaged modifications
+# 	git diff --quiet 2>/dev/null || flags="${flags}!"
+
+# 	# Untracked files
+# 	if [ -n "$(git ls-files --others --exclude-standard 2>/dev/null | head -1)" ]; then
+# 		flags="${flags}?"
+# 	fi
+
+# 	# Ahead / behind remote (requires a tracking branch)
+# 	ab=$(git rev-list --left-right --count '@{u}...HEAD' 2>/dev/null)
+
+# 	if [ -n "$ab" ]; then
+# 		behind=$(printf '%s' "$ab" | awk '{print $1}')
+# 		ahead=$(printf '%s' "$ab" | awk '{print $2}')
+# 		[ "$ahead" -gt 0 ] 2>/dev/null && flags="${flags}↑${ahead}"
+# 		[ "$behind" -gt 0 ] 2>/dev/null && flags="${flags}↓${behind}"
+# 	fi
+
+# 	[ -n "$flags" ] && flags=" ${blue}[${flags}]${reset}"
+# 	printf ' on %s%s' "${violet}$branch${reset}" "$flags"
+# }
+
+_in_git_repo() {
+	if [ -n "$GIT_DIR" ]; then
+		return 0
+	fi
+
+	_d="$PWD"
+	while true; do
+		if [ -e "$_d/.git" ]; then
+			return 0
+		fi
+		[ "$_d" = "/" ] && return 1
+		_d="${_d%/*}"
+		[ -z "$_d" ] && _d="/"
+	done
+}
+
+_git_info() {
+	command -v git >/dev/null 2>&1 || return
+	_in_git_repo || return
+
+	# Single round-trip: porcelain=v2 returns branch name, ahead/behind counts,
+	# and every file-level dirty bit in one output stream.
+	#
+	# GIT_OPTIONAL_LOCKS=0       no index-lock writes on read ops
+	# core.fsmonitor=false       skip fsmonitor (can add 100 ms+ on large trees)
+	# --untracked-files=normal   only stat top-level untracked dirs, not recurse
+	# --no-renames               skip expensive rename / copy detection
+	GIT_STATUS_FLAGS="--porcelain=v2 --branch --untracked-files=normal --no-renames"
+	_git_cmd="GIT_OPTIONAL_LOCKS=0 git -c core.fsmonitor=false status $GIT_STATUS_FLAGS"
+
+	_raw=$(timeout 10s sh -c "$_git_cmd" 2>/dev/null) || return
+	_parsed=$(printf '%s\n' "$_raw" | awk '
+        /^# branch\.head /  { branch = $3 }
+        /^# branch\.ab /    {
+            ahead  = substr($3, 2) + 0
+            behind = substr($4, 2) + 0
+        }
+        /^[12] / {
+            x = substr($2, 1, 1)
+            y = substr($2, 2, 1)
+            if (x != ".") staged   = "+"
+            if (y != ".") unstaged = "!"
+        }
+        /^\? / { untracked = "?" }
+        END {
+            flags = staged unstaged untracked
+            if (ahead  > 0) flags = flags "\342\206\221" ahead
+            if (behind > 0) flags = flags "\342\206\223" behind
+            printf "%s\t%s", branch, flags
+        }
+    ')
+
+	_branch="${_parsed%%	*}"
+	[ -z "$_branch" ] && return
+	_flags="${_parsed#*	}"
+
+	# Detached HEAD — show short SHA prefixed with @
+	if [ "$_branch" = "(detached)" ]; then
+		_git_cmd="GIT_OPTIONAL_LOCKS=0 git rev-parse --short HEAD"
+		_branch="@$(timeout 1s "$_git_cmd" 2>/dev/null)"
+	fi
+
+	_sc=$(GIT_OPTIONAL_LOCKS=0 git rev-list --walk-reflogs --count refs/stash 2>/dev/null)
+	[ -n "$_sc" ] && [ "$_sc" -gt 0 ] 2>/dev/null && _flags="${_flags}{${_sc}}"
+
+	[ -n "$_flags" ] && _flags=" ${blue}[$_flags]${reset}"
+	printf ' on %s%s' "${violet}$_branch${reset}" "$_flags"
+}
+
+_host_info() {
+	_host="$(hostname 2>/dev/null)"
+
+	# Highlight the hostname when connected via SSH.
+	if [ -z "${SSH_TTY}" ]; then
+		printf '%s' "${bold}${cyan}$_host${reset}"
+		return
+	fi
+
+	printf '%s' "${cyan}$_host${reset}"
+}
+
+_HOST="$(_host_info)"
+_USER="$(_user_info)"
+VIRTUAL_ENV_DISABLE_PROMPT='true'
+
+_build_prompt() {
+	printf '%s%s at %s in %s%s\n%s' \
+		"$(_venv_info)" \
+		"${_USER}" \
+		"${_HOST}" \
+		"$(_short_pwd)" \
+		"$(_git_info)" \
+		"${yellow}> ${reset}"
+}
+
+PS1='$(_build_prompt)'
