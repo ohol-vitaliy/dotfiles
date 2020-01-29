@@ -1,0 +1,9 @@
+[user]
+	email = ohol.vitaliy@gmail.com
+	name = Vitalii-Ohol
+[github]
+	user = ohol-vitaliy
+[credential]
+	helper = cache --timeout=10800
+[pull]
+	rebase = true
