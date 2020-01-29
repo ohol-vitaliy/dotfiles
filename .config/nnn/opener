@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+case "$1" in
+    *.mp4|*.mkv|*.avi|*.webm|*.mov|*.m4v|*.mpg|*.mpeg|*.m4v|*.wmv|*.flv|*.ts)
+        exec mpv "$1"
+        ;;
+    *.jpg|*.jpeg|*.png|*.gif|*.webp|*.bmp|*.tif|*.tiff|*.avif)
+        exec feh "$1"
+        ;;
+    # *)
+    #     exec xdg-open "$1"
+    #     ;;
+esac
+
