@@ -1,0 +1,324 @@
+#!/usr/bin/env bash
+#
+if [ -x /usr/bin/dircolors ]; then
+	test -r ~/.dircolors && eval "$(dircolors -b ~/.dircolors)" || eval "$(dircolors -b)"
+	alias dir='dir —color=auto'
+	alias vdir='vdir —color=auto'
+	alias grep='grep --color=auto'
+	alias fgrep='fgrep --color=auto'
+	alias egrep='egrep --color=auto'
+fi
+
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+alias ......="cd ../../../../.."
+alias ..2="cd ../.."
+alias ..3="cd ../../.."
+alias ..4="cd ../../../.."
+alias ..5="cd ../../../../.."
+alias mkdir="mkdir -pv"
+alias cp="cp -riv"
+alias mv="mv -iv"
+alias rm="rm -riv"
+alias du="du -d1 -h"
+alias dfk="df -PTahk"
+alias dfi="df -PTahi"
+alias free="free -h --total"
+alias cls='echo -ne "\033c"'
+alias hist="history | grep -i"
+alias path='echo -e ${PATH//:/\\n}'
+alias oo="xdg-open "
+alias commands="compgen -ac"
+alias dmesg="dmesg | awk 'match(\$0, /^\\[[0-9. ]*\\]/){p=substr(\$0,RSTART,RLENGTH);r=substr(\$0,RSTART+RLENGTH+1);printf \"\\033[0;36m%s\\033[0m  %s\\n\",p,r;next;} {print;}'"
+alias gg="ping 8.8.8.8"
+alias swap="dd if=/dev/zero of=/swapfile bs=1024 count=1024000;mkswap /swapfile; swapon /swapfile"
+alias monon="xset dpms force on"
+alias monoff="xset dpms force off"
+
+if command -v _sudo >/dev/null 2>&1; then
+	root_cmd='_sudo'
+elif command -v doas >/dev/null 2>&1; then
+	root_cmd='doas'
+elif command -v sudo >/dev/null 2>&1; then
+	root_cmd='sudo'
+else
+	root_cmd=''
+fi
+
+alias sudo="$root_cmd " # sudo to work with aliases
+
+
+mounts() {
+	awk '{printf "%-20s on %-25s type %-8s (%s)\n", $1, $2, $3, $4}' /proc/mounts
+}
+alias m="mounts"
+
+if [ -f "/proc/1/comm" ]; then
+	init_system=$(cat /proc/1/comm)
+	
+	if [ "$init_system" = "busybox" ]; then
+		alias reboot="sudo busybox reboot"
+		alias off="sudo busybox poweroff"
+	elif [ "$init_system" = "systemd" ]; then
+		alias reboot="sudo systemctl reboot"
+		alias off="sudo systemctl poweroff"
+	fi
+fi
+
+randomize-filenames() {
+	for f in *.*; do ext="${f##*.}"; mv "$f" "$(head -c 1024 /dev/urandom | tr -dc 'a-z0-9' | head -c 10).$ext"; done
+}
+
+if command -v pacman >/dev/null 2>&1; then
+	echo "Using PACMAN package manager"
+	alias paci="$root_cmd pacman -S"
+	alias pacr="$root_cmd pacman -Rs"
+	alias pacs="$root_cmd pacman -Ss"
+	alias pacu="$root_cmd pacman -Syu"
+	alias pacc="$root_cmd pacman -Sc; $root_cmd pacman -Qdtq | $root_cmd pacman -Rs -"
+	alias pacl="$root_cmd pacman -Q"
+	alias pacl-auto="$root_cmd pacman -Qd"
+	alias pacl-manual="$root_cmd pacman -Qe"
+elif command -v apt >/dev/null 2>&1; then
+	echo "Using APT package manager"
+	alias paci="$root_cmd apt install"
+	alias paci-deb="$root_cmd dpkg -i"
+	alias pacr="$root_cmd apt purge"
+	alias pacs="$root_cmd apt search"
+	alias pacu="$root_cmd apt update && $root_cmd apt upgrade"
+	alias pacc="$root_cmd apt autoclean && $root_cmd apt autoremove"
+	alias pacl="$root_cmd dpkg -l"
+	alias pacl-auto="$root_cmd apt-mark showauto"
+	alias pacl-manual="$root_cmd apt-mark showmanual"
+	alias pac-auto2manual="$root_cmd apt-mark showauto | xargs -n 1 $root_cmd apt-mark manual"
+elif command -v apk >/dev/null 2>&1; then
+	echo "Using APK package manager"
+	alias paci="$root_cmd apk add -i"
+	alias pacr="$root_cmd apk del --purge -i"
+	alias pacs="$root_cmd apk search"
+	alias pacu="$root_cmd apk upgrade -U -i"
+	alias pacl="$root_cmd apk list -I"
+elif command -v pkg >/dev/null 2>&1; then
+	echo "Using PKG package manager"
+	alias paci="pkg install"
+	alias pacr="pkg purge"
+	alias pacs="pkg search"
+	alias pacu="pkg update && pkg upgrade"
+	alias pacc="pkg autoclean && pkg autoremove"
+fi
+
+if command -v emacs-nox >/dev/null 2>&1; then
+	alias emacsd='emacs-nox --daemon'
+	alias emad='emacs-nox --daemon'
+	alias emd='emacs-nox --daemon'
+elif command -v emacs >/dev/null 2>&1; then
+	alias emacsd='emacs --daemon'
+	alias emad='emacs --daemon'
+	alias emd='emacs --daemon'
+fi
+
+if command -v emacsclient >/dev/null 2>&1; then
+	alias em=emacsclient
+fi
+
+if command -v ledger >/dev/null 2>&1; then
+	alias ledger="ledger --pedantic"
+fi
+
+if command -v nvim >/dev/null 2>&1; then
+	alias vim="nvim"
+elif command -v vim.nox >/dev/null 2>&1; then
+	alias vim="vim.nox"
+elif command -v vim >/dev/null 2>&1; then
+	alias vim="vim"
+elif command -v vim.tiny >/dev/null 2>&1; then
+	alias vim="vim.tiny"
+fi
+
+if command -v rg >/dev/null 2>&1; then
+	alias grep="rg"
+else
+	alias grep="grep --color=auto -i"
+	echo "RIPGREP is not installed"
+fi
+
+if command -v remind >/dev/null 2>&1; then
+	alias remind="remind -b1 -m -@2"
+	alias rem="rem -b1 -m -@2"
+else
+	echo "REMIND is not installed"
+fi
+
+if command -v bat >/dev/null 2>&1; then
+	alias cat=bat
+elif command -v batcat >/dev/null 2>&1; then
+	alias cat=batcat
+else
+	echo "BAT is not installed"
+fi
+
+if command -v exa >/dev/null 2>&1; then
+	alias ls="exa -lh"
+	alias la="exa -lah"
+	alias ll="exa -lah"
+else
+	echo "EXA is not installed"
+	alias ls="ls -lhF --color=always"
+	alias la="ls -lah --color=always"
+	alias ll="ls -lah --color=always"
+fi
+
+if command -v docker >/dev/null 2>&1; then
+	ddu() { docker compose -f "$1" up -d --build; }
+	ddd() { docker compose -f "$1" down; }
+	ddr() { docker compose -f "$1" restart; }
+	alias ddstop="docker stop"
+	alias ddstart="docker start"
+	alias ddlog="docker logs"
+	alias ddexec="docker run"
+	alias ddrun="docker run"
+	alias ddps="docker ps"
+	alias ddpsi="docker ps --format \"{{.Image}}\""
+	alias ddpsn="docker ps --format \"{{.Names}}\""
+else
+	echo 'DOCKER is not installed'
+fi
+
+if command -v tmux >/dev/null 2>&1; then
+	tmux_cmd="tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf"
+	alias tt="$tmux_cmd attach-session || $tmux_cmd"
+	alias tmuxi="$tmux_cmd attach-session || $tmux_cmd"
+	alias tmuxk="$tmux_cmd kill-session -t"
+	alias tmuxn="$tmux_cmd new-session -s"
+	alias tmuxl="$tmux_cmd list-sessions"
+	alias tmuxa="$tmux_cmd -2 attach-session -d -t"
+else
+	echo "TMUX is not installed"
+fi
+
+if command -v git >/dev/null 2>&1; then
+	alias gc="git commit"
+	alias gca="git commit --amend"
+	alias ga="git add"
+	alias gd="git diff"
+	alias gs="git status"
+	alias gl="git log --oneline --abbrev-commit --branches"
+	alias glg="git log --oneline --graph --abbrev-commit --branches"
+	alias gpl="git pull"
+	alias gpsh="git push"
+	alias gclean="git remote prune origin && git repack && git prune-packed && git reflog expire --expire=1.month.ago && git gc --aggressive"
+	alias gsquashall="git reset $(git commit-tree HEAD^{tree} -m 'init')"
+else
+	echo "GIT is not installed"
+fi
+
+if command -v nano >/dev/null 2>&1; then
+	alias nano="nano -c -$"
+fi
+
+if command -v wget >/dev/null 2>&1; then
+	alias wget="wget -c"
+fi
+
+if command -v nmap >/dev/null 2>&1; then
+	scan-for-port() { nmap -sS -O -p "$1" "$2"; }
+fi
+
+if command -v s2ram >/dev/null 2>&1; then
+	alias sus="s2ram -f -a 1"
+	alias hibernate="s2disk"
+else
+	echo 'S2RAM/S2DISK are not installed'
+	# TODO: what if using other init than systemd
+	alias sus="sudo systemctl suspend"
+	alias hibernate="sudo systemctl hibernate"
+fi
+
+if command -v curl >/dev/null 2>&1; then
+	alias myip="curl ifconfig.me/ip"
+	alias myhost="curl ifconfig.me/host"
+	wttr() { curl "wttr.in/$1"; }
+else
+	echo "CURL is not installed"
+fi
+
+if command -v info >/dev/null 2>&1; then
+	alias info="info --vi-keys"
+fi
+
+if command -v fzf >/dev/null 2>&1; then
+	function h {
+		eval "$(history | cut -c 8- | uniq | fzf +s --tac)"
+	}
+
+	function c {
+		local dir
+		dir=$(find -L "${1:-.}" \
+			-name .git -prune \
+			-o -name .vim -prune \
+			-o -type d -print 2>/dev/null |
+			fzf --border --preview "ls {}") &&
+			cd "$dir" ||
+			echo "Cancelling.."
+	}
+
+	function e {
+		local file
+		file=$(find -L "${1:-.}" \
+			-name .git -prune \
+			-o -name .cache -prune \
+			-o -name .vim -prune \
+			-o -name *.o -prune \
+			-o -name *.su -prune \
+			-o -name *.d -prune \
+			-o -name *.pyc -prune \
+			-o -name *.elf -prune \
+			-o -name *.mp3 -prune \
+			-o -name *.ogg -prune \
+			-o -name *.mp4 -prune \
+			-o -name *.avi -prune \
+			-o -type f -print 2>/dev/null |
+			fzf --border --preview \
+				'[[ $(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=numbers --color=always {} || batcat --style=numbers --color=always {} || highlight -O ansi -l {} || coderay {} || rougify {} || cat {}) 2> /dev/null | head -500') &&
+			$EDITOR "$file" ||
+			echo "Cancelling.."
+	}
+
+	function k {
+		local pid="$(ps -eo pid,user,time,comm,args | sed 1d | fzf -m | awk '{print $1}')"
+
+		if [ -n "$pid" ]; then
+			kill -"${1:-9}" "$pid"
+		fi
+	}
+else
+	echo "FZF is not installed"
+fi
+
+function encr {
+	openssl enc -aes-256-cbc -pbkdf2 -in "$1" -out "$1.encr"
+}
+
+function decr {
+	if [[ "$1" == *.encr ]]; then
+		openssl enc -d -aes-256-cbc -pbkdf2 -in "$1" -out "${1:0:-5}"
+	else
+		echo "File do end with .encr extension"
+	fi
+}
+
+# http://www.commandlinefu.com/commands/view/954
+
+# colorize man output
+function man {
+	env LESS_TERMCAP_mb=$'\E[01;31m' \
+		LESS_TERMCAP_md=$'\E[01;31m' \
+		LESS_TERMCAP_me=$'\E[0m' \
+		LESS_TERMCAP_se=$'\E[0m' \
+		LESS_TERMCAP_so=$'\E[01;44;33m' \
+		LESS_TERMCAP_ue=$'\E[0m' \
+		LESS_TERMCAP_us=$'\E[01;32m' \
+		man "$@"
+}

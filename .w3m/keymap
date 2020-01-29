@@ -1,0 +1,258 @@
+
+# Set default keymap to	NULL {{{
+########## invalidate defaults ##########
+keymap  K	NULL
+keymap  J	NULL
+keymap  SPC	NULL
+keymap  -	NULL
+keymap  +	NULL
+keymap  C-v	NULL
+keymap  ESC-v	NULL
+keymap  C-f	NULL
+keymap  C-b	NULL
+keymap  C-n	NULL
+keymap  C-p	NULL
+keymap  <	NULL
+keymap  >	NULL
+keymap  .	NULL
+keymap  ,	NULL
+keymap  ^	NULL
+keymap  C-a	NULL
+keymap  W	NULL
+keymap  ^[[6~	NULL
+keymap  ^[[5~	NULL
+keymap  g	NULL
+keymap  ^[[1~	NULL
+keymap  ^[[4~	NULL
+keymap  ESC-<	NULL
+keymap  ESC->	NULL
+keymap  [	NULL
+keymap  ]	NULL
+keymap  ^[[Z	NULL
+keymap  ESC-m	NULL
+keymap  (	NULL
+keymap  )	NULL
+keymap  C-j	NULL
+keymap  C-m	NULL
+keymap  ESC-C-j	NULL
+keymap  ESC-C-m	NULL
+keymap  ESC-w	NULL
+keymap  ESC-W	NULL
+keymap  C-s	NULL
+keymap  =	NULL
+keymap  ESC-l	NULL
+keymap  U	NULL
+keymap  V	NULL
+keymap  v	NULL
+keymap  R	NULL
+keymap  ESC-s	NULL
+keymap  :	NULL
+keymap  C-q	NULL
+keymap  T	NULL
+keymap  {	NULL
+keymap  }	NULL
+keymap  ESC-a	NULL
+keymap  ESC-b	NULL
+keymap  c	NULL
+keymap  ESC-:	NULL
+keymap  C-h	NULL
+keymap  q	NULL
+keymap  Q	NULL
+keymap  C-w	NULL
+keymap  C-d	NULL
+keymap  C-u	NULL
+keymap  RIGHT	NULL
+keymap  l	NULL
+keymap  LEFT	NULL
+keymap  h	NULL
+keymap  j	NULL
+keymap  DOWN	NULL
+keymap  k	NULL
+keymap  UP	NULL
+keymap  C-e	NULL
+keymap  C-y	NULL
+keymap  0	NULL
+keymap  $	NULL
+keymap  Z	NULL
+keymap  z	NULL
+keymap  ESC-g	NULL
+keymap  gg	NULL
+keymap  G	NULL
+keymap  w	NULL
+keymap  b	NULL
+keymap  C-n	NULL
+keymap  C-p	NULL
+keymap  ESC-TAB	NULL
+keymap  f	NULL
+keymap  C-o	NULL
+keymap  TAB	NULL
+keymap  C-j	NULL
+keymap  C-]	NULL
+keymap  I	NULL
+keymap  ESC-I	NULL
+keymap  ESC-C-j	NULL
+keymap  y	NULL
+keymap  u	NULL
+keymap  i	NULL
+keymap  gC-g	NULL
+keymap  C-g	NULL
+keymap  ";"	NULL
+keymap  M	NULL
+keymap  ESC-M	NULL
+keymap  F	NULL
+keymap  ESC-u	NULL
+keymap  t	NULL
+keymap  @	NULL
+keymap  "#"	NULL
+keymap  |	NULL
+keymap  B	NULL
+keymap  L	NULL
+keymap  H	NULL
+keymap  s	NULL
+keymap  gf	NULL
+keymap  S	NULL
+keymap  E	NULL
+keymap  ESC-e	NULL
+keymap  C-r	NULL
+keymap  r	NULL
+keymap  C-l	NULL
+keymap  C-t	NULL
+keymap  d	NULL
+keymap  gt	NULL
+keymap  gT	NULL
+keymap  ESC-t	NULL
+keymap  C-wL	NULL
+keymap  C-wH	NULL
+keymap  a	NULL
+keymap  n	NULL
+keymap  N	NULL
+keymap  /	NULL
+keymap  ?	NULL
+keymap  C-@	NULL
+keymap  ESC-n	NULL
+keymap  ESC-p	NULL
+keymap  \"	NULL
+keymap  ^[[2~	NULL
+keymap  ^[[28~	NULL
+keymap  ^[[E	NULL
+keymap  ^[[L	NULL
+keymap  o	NULL
+keymap  C-k	NULL
+keymap  D	NULL
+keymap  m	NULL
+keymap  ESC-c	NULL
+keymap  ESC-o	NULL
+keymap  ESC-k	NULL
+keymap  \\	NULL
+keymap  !	NULL
+#keymap C-z	NULL
+keymap  ZZ	NULL
+keymap  ZQ	NULL
+keymap	M-C-j	NULL
+# }}}
+ 
+# Vim Hotkeys {{{
+
+keymap  C-d     NEXT_HALF_PAGE
+keymap  C-u     PREV_HALF_PAGE
+keymap  C-h     SHIFT_LEFT
+keymap  C-l     SHIFT_RIGHT
+keymap  l       MOVE_RIGHT
+keymap  RIGHT   MOVE_RIGHT
+keymap  h       MOVE_LEFT
+keymap  LEFT    MOVE_LEFT
+keymap  DOWN    MOVE_DOWN1
+keymap  j       MOVE_DOWN1
+keymap  k       MOVE_UP1
+keymap  UP      MOVE_UP1
+
+keymap  0       LINE_BEGIN
+keymap  $       LINE_END
+keymap  zh      CENTER_H
+keymap  zz      CENTER_V
+keymap  gg      GOTO_LINE
+keymap  gg      BEGIN
+keymap  G       END
+keymap  w       NEXT_LINK
+keymap  b       PREV_LINK
+
+keymap	SPC     GOTO_LINK
+keymap	C-j     GOTO_LINK
+keymap	t       TAB_LINK
+keymap  C-n     NEXT_LINK
+keymap  C-p     PREV_LINK
+
+keymap	i       VIEW_IMAGE
+keymap  ESC-C-j SUBMIT
+keymap  pk      PEEK
+keymap  pl      PEEK_LINK
+keymap  pi      PEEK_IMG
+keymap  gi      INFO
+keymap	";"     MARK_URL
+keymap	,       MARK_WORD
+
+keymap  o     GOTO
+keymap  O     TAB_GOTO
+keymap  :e    LOAD
+
+keymap  L     NEXT
+keymap  H     PREV
+keymap  K     NEXT_TAB
+keymap  J     PREV_TAB
+
+keymap  gv    VIEW
+keymap  :w    SAVE
+keymap  S     SAVE_LINK
+keymap  C-r   RELOAD
+keymap  r     RELOAD
+
+
+keymap  n     SEARCH_NEXT
+keymap  N     SEARCH_PREV
+keymap  /     ISEARCH
+keymap  ?     ISEARCH_BACK
+
+keymap  q     QUIT
+keymap  ZZ    QUIT
+keymap  ZQ    EXIT
+keymap	Q     EXIT
+
+# }}}
+
+# Scripts & CGI-BIN {{{
+keymap  u       GOTO file:/cgi-bin/fn_restore_tab.cgi
+keymap  d       GOTO file:/cgi-bin/fn_closetab_stash.cgi
+keymap  y       GOTO file:/cgi-bin/fn_yank_page_url.cgi
+keymap  Y       GOTO file:/cgi-bin/fn_yank_current_link.cgi
+# keymap  gg      GOTO file:/cgi-bin/fn_goto_w3m_clipboard.cgi
+
+keymap  xx      COMMAND "READ_SHELL ~/.w3m/cgi-bin/fnx_fzfmiru.cgi ; BACK ; GOTO file:/cgi-bin/fnx_execute.cgi ; BACK"
+keymap  xu      COMMAND "READ_SHELL ~/.w3m/cgi-bin/fnx_change_user_agent.cgi ; BACK ; GOTO file:/cgi-bin/fnx_user_agent_set.cgi"
+keymap  xr      GOTO file:/cgi-bin/fn_readerview_readability.cgi
+# }}}
+
+# ### OTHER {{{
+
+
+# https://raw.githubusercontent.com/felipesaa/A-vim-like-firefox-like-configuration-for-w3m/master/documentation/functions.txt
+# https://ntmlabs.com/w3m-tricks/
+# https://web.archive.org/web/20200226144949/https://ntmlabs.com/w3m-tricks/
+# https://vitalyparnas.com/guides/w3m/
+# https://developers.whatismybrowser.com/useragents/explore/
+# leader key = \
+# keymap  \\\c    COMMAND       "SET_OPTION color=toggle ; RESHAPE"
+# keymap  \\\t    COMMAND       "SET_OPTION display_borders=toggle ; RESHAPE"
+# keymap  \\\i    COMMAND       "SET_OPTION display_image=toggle ; RELOAD"
+# keymap  \\\e    COMMAND       "SET_OPTION user_agent='' ; RELOAD"
+# keymap  \\\a    COMMAND       "SET_OPTION user_agent='Opera/9.80 (S60; SymbOS; Opera Mobi/SYB-1107071606; U; en) Presto/2.8.149 Version/11.10' ; RELOAD"
+# keymap  C-t     COMMAND       "TAB_GOTO https://duckduckgo.com/lite/; NEXT_LINK; GOTO_LINK"
+keymap  st       COMMAND       "TAB_GOTO https://duckduckgo.com/lite/; NEXT_LINK; GOTO_LINK"
+keymap  sg      COMMAND       "TAB_GOTO https://google.com; GOTO_LINE 6; NEXT_LINK; GOTO_LINK"
+keymap  s1      COMMAND       "TAB_GOTO https://1337x.to; GOTO_LINE 6; NEXT_LINK; GOTO_LINK"
+keymap  sx      COMMAND       "TAB_GOTO https://stackexchange.com; GOTO_LINE 7; NEXT_LINK; GOTO_LINK"
+# keymap  \\\?    COMMAND       "HELP; SEARCH User-Defined; CENTER_V"
+# keymap  \\\m    COMMAND       "SHELL 'man w3m'"
+# keymap  \\\x    COMMAND       "LIST; SEARCH \.torrent$; EXTERN_LINK ~/.scripts/privatescripts/addtorrent-thinkcentre"
+# keymap  \\\m    COMMAND       "LIST; SEARCH magnet:\?; EXTERN_LINK ~/.scripts/privatescripts/addtorrent-thinkcentre"
+
+# }}}

@@ -1,0 +1,131 @@
+#!/usr/bin/env bash
+bind 'set completion-ignore-case on'
+bind 'set show-all-if-ambiguous on'
+bind 'TAB:menu-complete'
+
+complete -cf sudo
+complete -cf doas
+complete -cf man
+
+set -o vi
+set complete_aliases
+
+shopt -s cmdhist
+shopt -s histverify
+shopt -s histappend
+shopt -s checkwinsize
+shopt -s autocd
+shopt -s cdspell
+shopt -s cmdhist
+shopt -s dirspell direxpand
+shopt -s extglob
+shopt -s dotglob
+shopt -s globstar
+shopt -s no_empty_cmd_completion
+shopt -s nocaseglob
+shopt -s checkjobs
+shopt -s extquote
+shopt -s hostcomplete
+shopt -s interactive_comments
+shopt -s lastpipe
+shopt -s nocasematch
+shopt -s shift_verbose
+
+FIGNORE=.o:.su
+
+export SHELL=/bin/bash
+export TBROWSER=w3m
+
+if command -v nvim >/dev/null 2>&1; then
+	export EDITOR=nvim
+elif command -v vim.nox >/dev/null 2>&1; then
+	export EDITOR=vim.nox
+elif command -v vim.tiny >/dev/null 2>&1; then
+	alias vim="vim.tiny"
+	export EDITOR=vim.tiny
+elif command -v vim >/dev/null 2>&1; then
+	export EDITOR=vim
+fi
+
+export HISTFILE=$HOME/.config/cl_history
+export SAVEHIST=200000000
+export HISTSIZE=20000000000
+export HISTIGNORE="$(paste -sd: - <<EOF
+&
+pstree*:tree*
+off:reboot:poweroff
+top:htop:cls:clear:env:startx:pwd
+tmux*
+g[acdl] *:gpsh:gpl
+[bf]g:jobs:exit
+free*:stat:stat *:oo:oo *:man:man *:ps:ps *
+history:hist:hist *
+vim:vim *
+pwm
+./pwm
+
+pac[luc]:pacr *
+d[fu]:d[fu] *:l[sla]:l[sla] *
+[echk]
+EOF
+)"
+# printf 'HISTIGNORE: %s\n' "$HISTIGNORE"
+export HISTCONTROL=ignoreboth:erasedups
+
+export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export LESS='-R -g -w'
+export LESSHISTFILE="-"
+# export ALSA_CONFIG_PATH="$HOME/.config/alsa/asoundrc"
+export GNUPGHOME="$XDG_DATA_HOME"/gnupg
+export WGETRC="$HOME/.config/wget/wgetrc"
+export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
+export MACHINE_STORAGE_PATH="$XDG_DATA_HOME"/docker-machine
+export BASH_COMPLETION_USER_FILE="$XDG_CONFIG_HOME"/bash-completion/bash_completion
+export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
+export DISTRO=$(cat /etc/os-release | grep ID | head -n 1 | cut -d= -f2)
+export DISTRO=${DISTRO:-debian}
+export RECSTASH="/data/data/com.termux/files/home/bookmarks/bookmarks"
+export DOTREMINDERS="/data/data/com.termux/files/home/reminders"
+
+if ! shopt -oq posix; then
+	if [ -f /usr/share/bash-completion/bash_completion ]; then
+		source /usr/share/bash-completion/bash_completion
+	elif [ -f /etc/bash_completion ]; then
+		source /etc/bash_completion
+	elif [ -f /usr/local/etc/bash_completion ]; then
+		source /usr/local/etc/bash_completion
+	fi
+fi
+if [ -d /etc/bash_completion.d/ ]; then
+	for file in /etc/bash_completion.d/*; do
+		source "$file"
+	done
+fi
+
+git config --global user.email "ohol.vitaliy@gmail.com"
+git config --global user.name "Vitalii-Ohol"
+git config --global github.user "ohol-vitaliy"
+git config --global credential.helper "cache --timeout=10800"
+git config --global pull.rebase true
+
+# if cat /etc/os-release | head -1 | grep -q -i alpine && command -v _ufetch.alpine; then
+# 	_ufetch.alpine
+if cat /etc/os-release | head -1 | grep -q -i debian && command -v _ufetch.debian; then
+	_ufetch.debian
+elif command -v _ufetch >/dev/null 2>&1; then
+	_ufetch
+elif command -v ufetch >/dev/null 2>&1; then
+	ufetch
+elif command -v neofetch >/dev/null 2>&1; then
+	neofetch
+elif command -v screenfetch >/dev/null 2>&1; then
+	screenfetch
+elif command -v pfetch >/dev/null 2>&1; then
+	pfetch
+fi
+
+[ -f $HOME/.config/promptrc ] && source $HOME/.config/promptrc
+[ -f $HOME/.config/aliasrc ] && source $HOME/.config/aliasrc
+[ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
