@@ -1,0 +1,355 @@
+# restore old behavior for clicking on yourself (i.e just pick up an item/loot chest/use stairs without a menu popup)
+#BIND=mouse1:mouseaction
+
+OPTIONS=boulder:0
+OPTIONS=catname:catto
+OPTIONS=dogname:doggo
+OPTIONS=fruit:fruit
+OPTIONS=horsename:horso
+
+OPTIONS=!cmdassist
+OPTIONS=DECgraphics
+OPTIONS=align_message:top
+OPTIONS=align_status:bottom
+OPTIONS=autounlock:apply-key+kick+force
+OPTIONS=color
+OPTIONS=dumplog
+OPTIONS=extmenu
+OPTIONS=force_invmenu
+OPTIONS=guicolor
+OPTIONS=hilite_pet
+OPTIONS=hilite_pile
+OPTIONS=lit_corridor
+OPTIONS=menucolors
+OPTIONS=menustyle:full
+OPTIONS=mouse_support
+OPTIONS=msg_window:r
+OPTIONS=msghistory:200
+OPTIONS=perm_invent
+OPTIONS=pile_limit:2
+OPTIONS=popup_dialog
+OPTIONS=runmode:walk
+OPTIONS=safe_pet
+OPTIONS=scores:10 top/2 around/own
+OPTIONS=showexp
+OPTIONS=showscore
+OPTIONS=statushilites:10
+OPTIONS=symset:DECgraphics
+OPTIONS=time
+OPTIONS=toptenwin
+OPTIONS=use_inverse
+OPTIONS=windowborders:1
+OPTIONS=windowtype:curses
+
+
+OPTIONS=hilite_status:carrying-capacity/burdened/yellow/stressed/orange
+OPTIONS=hilite_status:carrying-capacity/overloaded/red&inverse
+OPTIONS=hilite_status:carrying-capacity/overtaxed/red&inverse
+OPTIONS=hilite_status:carrying-capacity/strained/red&bold
+OPTIONS=hilite_status:characteristics/up/green/down/red
+OPTIONS=hilite_status:condition/blind/red/stun/red
+OPTIONS=hilite_status:condition/major_troubles/red&inverse
+OPTIONS=hilite_status:condition/minor_troubles/orange
+OPTIONS=hilite_status:condition/movement/green
+OPTIONS=hilite_status:experience-level/up/green/down/red
+OPTIONS=hilite_status:gold/always/yellow
+OPTIONS=hilite_status:hitpoints/100%/green/<100%/green/<70%/yellow
+OPTIONS=hilite_status:hitpoints/<15%/red&inverse
+OPTIONS=hilite_status:hitpoints/<50%/orange/<30%/red&bold
+OPTIONS=hilite_status:hunger/fainted/red&inverse
+OPTIONS=hilite_status:hunger/satiated/yellow/hungry/orange
+OPTIONS=hilite_status:hunger/weak/red&bold/fainting/red&inverse
+OPTIONS=hilite_status:power/100%/green/<100%/green/<70%/yellow
+OPTIONS=hilite_status:power/<50%/orange/<30%/red&bold
+
+
+# PICKUP
+OPTIONS=autopickup
+OPTIONS=pickup_burden:unencumbered
+OPTIONS=pickup_types:$"=/!?+%(*
+
+AUTOPICKUP_EXCEPTION="< lamp"
+AUTOPICKUP_EXCEPTION="< luckstone"
+AUTOPICKUP_EXCEPTION="< touchstone"
+AUTOPICKUP_EXCEPTION="<*arrow"
+AUTOPICKUP_EXCEPTION="<.* +6 .*"
+AUTOPICKUP_EXCEPTION="<.* +7 .*"
+AUTOPICKUP_EXCEPTION="<.* +8 .*"
+AUTOPICKUP_EXCEPTION="<.* +9 .*"
+AUTOPICKUP_EXCEPTION="<.* named ammo*"
+AUTOPICKUP_EXCEPTION="<.*Amulet of Yendor named .*"
+AUTOPICKUP_EXCEPTION="<.*Bell of Opening"
+AUTOPICKUP_EXCEPTION="<.*Book of the Dead"
+AUTOPICKUP_EXCEPTION="<.*Candelabrum of Invocation"
+AUTOPICKUP_EXCEPTION="<.*amulet called life"
+AUTOPICKUP_EXCEPTION="<.*amulet called ref"
+AUTOPICKUP_EXCEPTION="<.*amulet of life saving"
+AUTOPICKUP_EXCEPTION="<.*amulet of reflection"
+AUTOPICKUP_EXCEPTION="<.*arrow"
+AUTOPICKUP_EXCEPTION="<.*athame"
+AUTOPICKUP_EXCEPTION="<.*bugle"
+AUTOPICKUP_EXCEPTION="<.*can of grease"
+AUTOPICKUP_EXCEPTION="<.*candelabrum"
+AUTOPICKUP_EXCEPTION="<.*crossbow bolt"
+AUTOPICKUP_EXCEPTION="<.*crystal ball"
+AUTOPICKUP_EXCEPTION="<.*d drum"
+AUTOPICKUP_EXCEPTION="<.*d flute"
+AUTOPICKUP_EXCEPTION="<.*d lamp"
+AUTOPICKUP_EXCEPTION="<.*d whistle"
+AUTOPICKUP_EXCEPTION="<.*dagger"
+AUTOPICKUP_EXCEPTION="<.*dart"
+AUTOPICKUP_EXCEPTION="<.*drum of earthquake"
+AUTOPICKUP_EXCEPTION="<.*expensive camera"
+AUTOPICKUP_EXCEPTION="<.*fire horn"
+AUTOPICKUP_EXCEPTION="<.*frost horn"
+AUTOPICKUP_EXCEPTION="<.*glass orb"
+AUTOPICKUP_EXCEPTION="<.*key"
+AUTOPICKUP_EXCEPTION="<.*knife"
+AUTOPICKUP_EXCEPTION="<.*lenses"
+AUTOPICKUP_EXCEPTION="<.*luckstone"
+AUTOPICKUP_EXCEPTION="<.*magic flute"
+AUTOPICKUP_EXCEPTION="<.*magic harp"
+AUTOPICKUP_EXCEPTION="<.*magic lamp"
+AUTOPICKUP_EXCEPTION="<.*magic marker"
+AUTOPICKUP_EXCEPTION="<.*magic whistle"
+AUTOPICKUP_EXCEPTION="<.*papyrus spellbook"
+AUTOPICKUP_EXCEPTION="<.*sed candle"
+AUTOPICKUP_EXCEPTION="<.*sed harp"
+AUTOPICKUP_EXCEPTION="<.*sed horn"
+AUTOPICKUP_EXCEPTION="<.*shuriken"
+AUTOPICKUP_EXCEPTION="<.*silver bell"
+AUTOPICKUP_EXCEPTION="<.*stethoscope"
+AUTOPICKUP_EXCEPTION="<.*stone called luck"
+AUTOPICKUP_EXCEPTION="<.*tallow candles?"
+AUTOPICKUP_EXCEPTION="<.*throwing star"
+AUTOPICKUP_EXCEPTION="<.*tooled horn"
+AUTOPICKUP_EXCEPTION="<.*touchstone"
+AUTOPICKUP_EXCEPTION="<.*wax candles?"
+AUTOPICKUP_EXCEPTION="<.*wooden flute"
+AUTOPICKUP_EXCEPTION="<.*wooden harp"
+AUTOPICKUP_EXCEPTION="<.*ya"
+AUTOPICKUP_EXCEPTION="<amulet .* life"
+AUTOPICKUP_EXCEPTION="<athame"
+AUTOPICKUP_EXCEPTION="<candle"
+AUTOPICKUP_EXCEPTION="<drum"
+AUTOPICKUP_EXCEPTION="<floating eye corpse"
+AUTOPICKUP_EXCEPTION="<flute"
+AUTOPICKUP_EXCEPTION="<harp"
+AUTOPICKUP_EXCEPTION="<horn"
+AUTOPICKUP_EXCEPTION="<lamp"
+AUTOPICKUP_EXCEPTION="<lichen corpse"
+AUTOPICKUP_EXCEPTION="<lizard corpse"
+AUTOPICKUP_EXCEPTION="<magic marker"
+AUTOPICKUP_EXCEPTION="<newt corpse"
+AUTOPICKUP_EXCEPTION="<stone called luck"
+AUTOPICKUP_EXCEPTION="<wand .* create monster"
+AUTOPICKUP_EXCEPTION="<wand .* death"
+AUTOPICKUP_EXCEPTION="<wand .* fire"
+AUTOPICKUP_EXCEPTION="<wand .* lightning"
+AUTOPICKUP_EXCEPTION="<wand .* poly"
+AUTOPICKUP_EXCEPTION="<wand .* tele"
+AUTOPICKUP_EXCEPTION="<wand .* wish"
+AUTOPICKUP_EXCEPTION="<whistle"
+AUTOPICKUP_EXCEPTION="<wraith corpse"
+AUTOPICKUP_EXCEPTION="> box"
+AUTOPICKUP_EXCEPTION="> chest"
+AUTOPICKUP_EXCEPTION="> corpse"
+AUTOPICKUP_EXCEPTION="> gray stone"
+AUTOPICKUP_EXCEPTION="> lamp .* oil"
+AUTOPICKUP_EXCEPTION="> loadstone"
+AUTOPICKUP_EXCEPTION="> named empty" 
+AUTOPICKUP_EXCEPTION="> nothing"
+AUTOPICKUP_EXCEPTION="> oil lamp"
+AUTOPICKUP_EXCEPTION="> rock"
+AUTOPICKUP_EXCEPTION=">* cursed*"
+AUTOPICKUP_EXCEPTION=">*corpse"
+AUTOPICKUP_EXCEPTION=">.*Amulet of Yendor"
+AUTOPICKUP_EXCEPTION=">.*amulet called die"
+AUTOPICKUP_EXCEPTION=">.*amulet called sleep"
+AUTOPICKUP_EXCEPTION=">.*amulet of ESP"
+AUTOPICKUP_EXCEPTION=">.*amulet of change"
+AUTOPICKUP_EXCEPTION=">.*amulet of magical breathing"
+AUTOPICKUP_EXCEPTION=">.*amulet of restful sleep"
+AUTOPICKUP_EXCEPTION=">.*amulet of strangulation"
+AUTOPICKUP_EXCEPTION=">.*amulet of unchanging"
+AUTOPICKUP_EXCEPTION=">.*amulet versus poison"
+AUTOPICKUP_EXCEPTION=">.*boulder.*"
+AUTOPICKUP_EXCEPTION=">.*cheap plastic imitation of the Amulet of Yendor named .*"
+AUTOPICKUP_EXCEPTION=">.*cheap plastic imitation of the Amulet of Yendor"
+AUTOPICKUP_EXCEPTION=">.*corpse.*"
+AUTOPICKUP_EXCEPTION=">.*flint stone"
+AUTOPICKUP_EXCEPTION=">.*gray stone"
+AUTOPICKUP_EXCEPTION=">.*loadstone named .*"
+AUTOPICKUP_EXCEPTION=">.*loadstone"
+AUTOPICKUP_EXCEPTION=">.*rock"
+AUTOPICKUP_EXCEPTION=">.*rock.*"
+AUTOPICKUP_EXCEPTION=">.*sed gem"
+AUTOPICKUP_EXCEPTION=">.*sed stone"
+AUTOPICKUP_EXCEPTION=">.*stone called loa.*"
+AUTOPICKUP_EXCEPTION=">:0)" 
+AUTOPICKUP_EXCEPTION=">^[a0-9]+ stone"
+AUTOPICKUP_EXCEPTION=">gem"
+AUTOPICKUP_EXCEPTION=">stone"
+
+
+# MENU
+MENUCOLOR=" !B"=white
+MENUCOLOR=" !C"=white
+MENUCOLOR=" !UC"=white
+MENUCOLOR=" ([0-9]+|an?|gems? .*) (uncursed |cursed |blessed )?(dilithium|opal|garnet|jasper|agate|jet|obsidian|jade|citrine|chrysoberyl|amber|amethyst|fluorite|turquoise)(e?s)?( stones?| gems?| crystals?)?( named .*)?$"=brown
+MENUCOLOR=" ([0-9]+|an?|gems?.*) (uncursed |cursed |blessed )?(diamond|rub(y|ies)|jacinth|sapphire|black opal|emerald|topaz|aquamarine)(e?s)?( stones?| gems?)?( named .*)?$"=yellow
+MENUCOLOR=" 0%"=white
+MENUCOLOR=" 100%"=red
+MENUCOLOR=" 7[0-5]%"=yellow
+MENUCOLOR=" 7[6-9]%"=orange
+MENUCOLOR=" 8[0-9]%"=orange
+MENUCOLOR=" 9[0-9]%"=red
+MENUCOLOR=" [+-][0-9] "=white
+MENUCOLOR=" [1-9]%"=cyan
+MENUCOLOR=" [12][0-9]%"=cyan
+MENUCOLOR=" [3-6][0-9]%"=yellow
+MENUCOLOR=" \([-0-9]+:[-0-9]+\)"=white 
+MENUCOLOR=" amulet .* (life ?saving|LS)($| )"=magenta
+MENUCOLOR=" amulet .* ref(lection)?($| )"=magenta
+MENUCOLOR=" bag .* holding"=magenta
+MENUCOLOR=" bag .* tricks"=red&underline
+MENUCOLOR=" blessed clear potion"=cyan&bold
+MENUCOLOR=" blessed potions? called water"=cyan&bold
+MENUCOLOR=" blessed| B($| )"=green
+MENUCOLOR=" bugle"=magenta
+MENUCOLOR=" c(o|hi)ckatrice (corpse|egg)"=magenta
+MENUCOLOR=" clear potions? named (holy|blessed|B)($| )"=cyan&bold
+MENUCOLOR=" cursed clear potion"=orange
+MENUCOLOR=" cursed potions? called water"=orange
+MENUCOLOR=" cursed.* (Bell of Opening|silver bell|Candelabrum of Invocation|candelabrum|Book of the Dead|papyrus spellbook)"=red&bold
+MENUCOLOR=" cursed.* bag .* holding"=red&bold
+MENUCOLOR=" cursed.* luck(stone)?($| )"=red&bold
+MENUCOLOR=" cursed.* unicorn horn"=red&bold
+MENUCOLOR=" cursed| C($| )"=red
+MENUCOLOR=" egg .* cockatrice"=magenta
+MENUCOLOR=" flute"=magenta
+MENUCOLOR=" gems? .* hard"=yellow
+MENUCOLOR=" gold piece"=yellow
+MENUCOLOR=" harp"=magenta
+MENUCOLOR=" holy water"=cyan&bold
+MENUCOLOR=" load(stone)?($| )"=blue&underline
+MENUCOLOR=" luck(stone)?($| )"=magenta
+MENUCOLOR=" magic lamp|lamp .* magic"=magenta
+MENUCOLOR=" magic marker"=magenta
+MENUCOLOR=" potions? called water named (holy|blessed|B)($| )"=cyan&bold
+MENUCOLOR=" potions? called water named (unholy|cursed|C)($| )"=orange
+MENUCOLOR=" potions? of water named (holy|blessed|B)($| )"=cyan&bold
+MENUCOLOR=" ring .* (FA|free action)($| )"=magenta
+MENUCOLOR=" ring .* (TC|teleport control)($| )"=magenta
+MENUCOLOR=" ring .* conf(lict)?"=magenta
+MENUCOLOR=" ring .* lev(itation)?($| )"=magenta
+MENUCOLOR=" ring .* reg(eneration)?($| )"=magenta
+MENUCOLOR=" stethoscope"=magenta
+MENUCOLOR=" tinning kit"=magenta
+MENUCOLOR=" uncursed| UC?($| )"=white
+MENUCOLOR=" unholy water"=orange
+MENUCOLOR=" unicorn horn[^[]*$"=magenta 
+MENUCOLOR=" valuable"=brown
+MENUCOLOR=" wand .* msg_van"=red&underline
+MENUCOLOR=" wand .* wish(ing)?($| )"= magenta
+MENUCOLOR=" wand .*[^!]canc"=red&underline
+MENUCOLOR=" wand called .* vanish( .*)?$"=red&underline
+MENUCOLOR="(^|aluminum |balsa |brass |copper |crystal |curved |ebony | forked |glass |hexagonal |iridium |iron |jeweled |long |maple |marble |oak |pine |platinum |runed |short |silver |spiked |steel |tin |uranium |zinc )wand($| named)"=red&underline 
+MENUCOLOR="[a-zA-Z] - [a-zA-Z ]+ [0-9]\*   [a-z]+ +[0-9]+%"=magenta
+MENUCOLOR="^ *[a-z] - +[a-z -]+ +\[(Unskilled|Basic|Skilled|Expert|Master|Grand Master)\]$"=white
+MENUCOLOR="^ +# +[a-z -]+ +\[(Unskilled|Basic|Skilled|Expert|Master|Grand Master)\]$"=gray
+MENUCOLOR="^ +[a-z -]+ +\[(Unskilled|Basic|Skilled|Expert|Master|Grand Master)\]$"=gray
+MENUCOLOR="^ +\* +[a-z -]+ +\[(Unskilled|Basic|Skilled|Expert|Master|Grand Master)\]$"=white
+MENUCOLOR="^[a-zA-Z$] - "=white 
+MENUCOLOR="bag .* holding named.* C($| )"=red&underline
+MENUCOLOR="bag($| named)"=red&underline
+MENUCOLOR="cursed.* bag .* holding"=red&underline
+MENUCOLOR="tooled horn|fire horn|frost horn|horn .* tooled|fire|frost)"=magenta
+
+
+# MESSAGES
+MSGTYPE=hide ".* (tentacles suck|swallows|kicks|misses|hits|bites|thrusts|swings|butts|touches|squeezes).*"
+MSGTYPE=hide ".*, welcome (back )?to NetHack!.*"
+MSGTYPE=hide "Never mind.*"
+MSGTYPE=hide "Pardon me, .*."
+MSGTYPE=hide "Restoring save file..."
+MSGTYPE=hide "Unknown direction: .*"
+MSGTYPE=hide "WHAMMM!!!"
+MSGTYPE=hide "You (misses|hit) .*"
+MSGTYPE=hide "You are now wearing .*"
+MSGTYPE=hide "You die.*"
+MSGTYPE=hide "You displaced .*"
+MSGTYPE=hide "You displaced .*" 
+MSGTYPE=hide "You finish disrobing."
+MSGTYPE=hide "You finish taking off .*"
+MSGTYPE=hide "You finish your dressing .*"
+MSGTYPE=hide "You move right into .*"
+MSGTYPE=hide "You open .* (box|chest) .*"
+MSGTYPE=hide "You stop. .* is in the way!"
+MSGTYPE=hide "You swap places with .*"
+MSGTYPE=hide "You were wearing .*"
+MSGTYPE=hide "Your movements are slowed slightly because of your load.*"
+MSGTYPE=norep "The poison doesn't seem to affect you.*"
+MSGTYPE=norep "You see here a .*"
+MSGTYPE=norep "You see here an .*"
+MSGTYPE=norep "You see here an? .*"
+MSGTYPE=stop "It constricts your throat!"
+MSGTYPE=stop "The .* (grabs|swings itself around) you!"
+MSGTYPE=stop "You are beginning to feel weak."
+MSGTYPE=stop "You are slowing down."
+MSGTYPE=stop "You are turning a little green."
+MSGTYPE=stop "You are turning into a green slime."
+MSGTYPE=stop "You can no longer breathe."
+MSGTYPE=stop "You don't feel very well."
+MSGTYPE=stop "You fail to cast the spell correctly."
+MSGTYPE=stop "You feel (much|even) worse."
+MSGTYPE=stop "You feel a strange vibration (under|beneath) your?.*"
+MSGTYPE=stop "You feel deathly sick."
+MSGTYPE=stop "You find it hard to breathe."
+MSGTYPE=stop "You see here a c(hi|o)ckatrice corpse."
+MSGTYPE=stop "You're gasping for air."
+MSGTYPE=stop "You're turning blue."
+MSGTYPE=stop "Your blood is having trouble reaching your brain."
+MSGTYPE=stop "Your consciousness is fading."
+MSGTYPE=stop "Your limbs are getting oozy."
+MSGTYPE=stop "Your limbs are stiffening."
+MSGTYPE=stop "Your skin begins to peel away."
+
+
+
+# *** Palette ***
+#
+# With the palette option you can change the colors used
+# by NetHack.
+#
+# There are 16 colors in total. Each color is specified
+# with three hexadecimal digits. One digit each for the
+# red, green, and blue component. Internally the digits
+# are duplicated to form a 24bpp color. So F90 expands
+# to FF9900.
+#
+# The colors are specified in a fixed order separated
+# with '/'.
+# The order is as follows:
+#
+# Palette index
+#   0 - Black
+#   1 - Red
+#   2 - Green
+#   3 - Brown
+#   4 - Blue
+#   5 - Magenta
+#   6 - Cyan
+#   7 - Gray
+#   8 - No color
+#   9 - Orange
+#   A - Bright Green
+#   B - Yellow
+#   C - Bright Blue
+#   D - Bright Magenta
+#   E - Bright Cyan
+#   F - White
+#
+# Palette index: 0   1   2   3   4   5   6   7   8   9   A   B   C   D   E   F
+#                |   |   |   |   |   |   |   |   |   |   |   |   |   |   |   |
+#OPTIONS=palette:555/F00/080/641/00F/F0F/0FF/888/FFF/F90/0F0/FF0/08F/F7F/7FF/FFF
