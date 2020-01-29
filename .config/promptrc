@@ -1,0 +1,157 @@
+#!/usr/bin/env sh
+# shellcheck disable=SC2034
+
+# if [[ $COLORTERM = gnome-* && $TERM = xterm ]] && infocmp gnome-256color >/dev/null 2>&1; then
+# 	export TERM='gnome-256color'
+# elif infocmp xterm-256color >/dev/null 2>&1; then
+# 	export TERM='xterm-256color'
+# fi
+
+# Wrap an escape sequence in \001...\002 so line editing doesn't count it
+# toward the prompt width (\[ \] only works in PS1 itself, not in its output).
+_np() {
+	printf '\001%s\002' "$1"
+}
+
+if tput setaf 1 >/dev/null 2>&1; then
+	tput sgr0 # reset colors
+	_have_tput=1
+fi
+
+# _color <tput args> <ANSI fallback>
+_color() {
+	if [ -n "$_have_tput" ]; then
+		# shellcheck disable=SC2086
+		_np "$(tput $1)"
+	elif [ -n "$2" ]; then
+		_np "$(printf '\033[%sm' "$2")"
+	fi
+}
+
+bold=$(_color bold '')
+reset=$(_color sgr0 0)
+# Solarized colors, taken from http://git.io/solarized-colors.
+blue=$(_color 'setaf 33' '1;34')
+cyan=$(_color 'setaf 37' '1;36')
+green=$(_color 'setaf 64' '1;32')
+red=$(_color 'setaf 124' '1;31')
+violet=$(_color 'setaf 61' '1;35')
+yellow=$(_color 'setaf 136' '1;33')
+unset -f _color
+unset _have_tput
+
+_venv_info() {
+	[ -z "$VIRTUAL_ENV" ] && return
+	printf '%s ' "${cyan}[${VIRTUAL_ENV##*/}]${reset}"
+}
+
+_short_pwd() {
+	case "$PWD" in
+	"$HOME" | "$HOME"/*) _p="~${PWD#"$HOME"}" ;;
+	*) _p="$PWD" ;;
+	esac
+	printf '%s' "${green}$_p${reset}"
+}
+
+_user_info() {
+	_user="${USER:-$(id -un)}"
+	case "$_user" in
+	root | admin)
+		printf '%s' "${red}$_user${reset}"
+		;;
+	*)
+		printf '%s' "${blue}$_user${reset}"
+		;;
+	esac
+}
+
+_in_git_repo() {
+	if [ -n "$GIT_DIR" ]; then
+		return 0
+	fi
+
+	_d="$PWD"
+	while true; do
+		if [ -e "$_d/.git" ]; then
+			return 0
+		fi
+		[ "$_d" = "/" ] && return 1
+		_d="${_d%/*}"
+		[ -z "$_d" ] && _d="/"
+	done
+}
+
+command -v git >/dev/null 2>&1 && _have_git=1
+
+_git_info() {
+	[ -n "$_have_git" ] || return
+	_in_git_repo || return
+
+	# Single round-trip: porcelain=v2 returns branch name, commit, ahead/behind
+	# counts, stash count and every file-level dirty bit in one output stream.
+	#
+	# GIT_OPTIONAL_LOCKS=0       no index-lock writes on read ops
+	# core.fsmonitor=false       skip fsmonitor (can add 100 ms+ on large trees)
+	# --untracked-files=normal   only stat top-level untracked dirs, not recurse
+	# --no-renames               skip expensive rename / copy detection
+	_raw=$(GIT_OPTIONAL_LOCKS=0 timeout 10s git -c core.fsmonitor=false status \
+		--porcelain=v2 --branch --show-stash --untracked-files=normal --no-renames 2>/dev/null) || return
+	_parsed=$(printf '%s\n' "$_raw" | awk '
+        /^# branch\.oid /   { oid = substr($3, 1, 7) }
+        /^# branch\.head /  { branch = $3 }
+        /^# branch\.ab /    {
+            ahead  = substr($3, 2) + 0
+            behind = substr($4, 2) + 0
+        }
+        /^# stash /         { stash = $3 + 0 }
+        /^[12] / {
+            x = substr($2, 1, 1)
+            y = substr($2, 2, 1)
+            if (x != ".") staged   = "+"
+            if (y != ".") unstaged = "!"
+        }
+        /^\? / { untracked = "?" }
+        END {
+            # Detached HEAD: show short SHA prefixed with @
+            if (branch == "(detached)") branch = "@" oid
+            flags = staged unstaged untracked
+            if (ahead  > 0) flags = flags "\342\206\221" ahead
+            if (behind > 0) flags = flags "\342\206\223" behind
+            if (stash  > 0) flags = flags "{" stash "}"
+            printf "%s\t%s", branch, flags
+        }
+    ')
+
+	_branch="${_parsed%%	*}"
+	[ -z "$_branch" ] && return
+	_flags="${_parsed#*	}"
+
+	[ -n "$_flags" ] && _flags=" ${blue}[$_flags]${reset}"
+	printf ' on %s%s' "${violet}$_branch${reset}" "$_flags"
+}
+
+_host_info() {
+	# shellcheck disable=SC3028 # bash sets HOSTNAME; other shells fall back
+	_host="${HOSTNAME:-$(hostname 2>/dev/null)}"
+
+	# Highlight the hostname when connected via SSH.
+	_b=''
+	[ -z "${SSH_TTY}" ] && _b="$bold"
+	printf '%s' "${_b}${cyan}$_host${reset}"
+}
+
+_HOST="$(_host_info)"
+_USER="$(_user_info)"
+VIRTUAL_ENV_DISABLE_PROMPT='true'
+
+_build_prompt() {
+	printf '%s%s at %s in %s%s\n%s' \
+		"$(_venv_info)" \
+		"${_USER}" \
+		"${_HOST}" \
+		"$(_short_pwd)" \
+		"$(_git_info)" \
+		"${yellow}> ${reset}"
+}
+
+PS1='$(_build_prompt)'

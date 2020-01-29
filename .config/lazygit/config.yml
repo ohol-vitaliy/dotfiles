@@ -1,0 +1,4 @@
+gui:
+  sidePanelWidth: 0.25 # fraction of screen width (default 0.3333)
+  screenMode: normal # half mode ignores sidePanelWidth
+  enlargedSideViewLocation: top # half mode: side panel on top, diff full width below
