@@ -1,0 +1,9 @@
+# Basic vars
+set ifs "\n"
+set scrolloff 10
+set period 1
+set hidden!
+
+cmd open $vim $fx
+
+map . set hidden!
