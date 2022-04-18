@@ -111,6 +111,13 @@ if command -v pacman >/dev/null 2>&1; then
 	alias pacl="$root_cmd pacman -Q"
 	alias pacl-auto="$root_cmd pacman -Qd"
 	alias pacl-manual="$root_cmd pacman -Qe"
+elif command -v pkg >/dev/null 2>&1; then
+	echo "Using PKG package manager"
+	alias paci="pkg install"
+	alias pacr="pkg purge"
+	alias pacs="pkg search"
+	alias pacu="pkg update && pkg upgrade"
+	alias pacc="pkg autoclean && pkg autoremove"
 elif command -v apt >/dev/null 2>&1; then
 	echo "Using APT package manager"
 	alias paci="$root_cmd apt install"
@@ -138,7 +145,6 @@ fi
 if command -v emacsclient >/dev/null 2>&1; then
 	alias em=emacsclient
 fi
-
 
 if command -v vim.tiny >/dev/null 2>&1; then
 	alias vim="vim.tiny"

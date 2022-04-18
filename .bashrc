@@ -134,13 +134,13 @@ fi
 
 
 [ -d "$SCRIPT_FOLDER" ]                 && export PATH="$PATH:$SCRIPT_FOLDER"
-[ ! -d ~/Documents ]                    && mkdir ~/Documents     || echo "Documents already exist"
-[ ! -d ~/Downloads ]                    && mkdir ~/Downloads     || echo "Downloads already exist"
-[ ! -d ~/Music ]                        && mkdir ~/Music         || echo "Music already exist"
-[ ! -d ~/Pictures ]                     && mkdir ~/Pictures      || echo "Pictures already exist"
-[ ! -d ~/Videos ]                       && mkdir ~/Videos        || echo "Videos already exist"
-[ ! -d "$WORKON_HOME" ]                 && mkdir "$WORKON_HOME"  || echo "Python ENV home already exist"
-[ ! -d "$PROJECT_HOME" ]                && mkdir "$PROJECT_HOME" || echo "projecthome already exist"
+# [ ! -d ~/Documents ]                    && mkdir ~/Documents     || echo "Documents already exist"
+# [ ! -d ~/Downloads ]                    && mkdir ~/Downloads     || echo "Downloads already exist"
+# [ ! -d ~/Music ]                        && mkdir ~/Music         || echo "Music already exist"
+# [ ! -d ~/Pictures ]                     && mkdir ~/Pictures      || echo "Pictures already exist"
+# [ ! -d ~/Videos ]                       && mkdir ~/Videos        || echo "Videos already exist"
+# [ ! -d "$WORKON_HOME" ]                 && mkdir "$WORKON_HOME"  || echo "Python ENV home already exist"
+# [ ! -d "$PROJECT_HOME" ]                && mkdir "$PROJECT_HOME" || echo "projecthome already exist"
 
 [ -f $HOME/.config/promptrc ]                  && source $HOME/.config/promptrc
 [ -f $HOME/.config/aliasrc ]                   && source $HOME/.config/aliasrc
