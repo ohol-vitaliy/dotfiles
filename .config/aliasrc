@@ -50,49 +50,49 @@ alias monon="xset dpms force on"
 alias monoff="xset dpms force off"
 alias get-network-interfaces="ip link show | egrep -o '[0-9]*: .*:' | tr -d ' ' | cut -d: -f2"
 
-s-google() {
-	$TBROWSER $(echo "https://www.google.com/search?q=$@" | sed "s/ /+/g")
-}
-s-duck() {
-	$TBROWSER $(echo "https://www.duckduckgo.com/?q=$@" | sed "s/ /+/g")
-}
-s-github() {
-	$TBROWSER $(echo "https://www.github.com/search?q=$@" | sed "s/ /+/g")
-}
-s-stack() {
-	$TBROWSER $(echo "https://www.stackoverflow.com/search?q=$@" | sed "s/ /+/g")
-}
-s-reddit() {
-	$TBROWSER $(echo "https://www.reddit.com/search?q=$@" | sed "s/ /+/g")
-}
-
-s-wiki() {
-	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\!w $@" | sed "s/ /+/g")
-}
-
-s-news() {
-	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\!n $@" | sed "s/ /+/g")
-}
-
-s-yt() {
-	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\!yt $@" | sed "s/ /+/g")
-}
-
-s-youtube() {
-	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\!yt $@" | sed "s/ /+/g")
-}
-
-s-map() {
-	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\!m $@" | sed "s/ /+/g")
-}
-
-s-image() {
-	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\!i $@" | sed "s/ /+/g")
-}
-
-s-ducky() {
-	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\! $@" | sed "s/ /+/g")
-}
+# s-google() {
+# 	$TBROWSER $(echo "https://www.google.com/search?q=$@" | sed "s/ /+/g")
+# }
+# s-duck() {
+# 	$TBROWSER $(echo "https://www.duckduckgo.com/?q=$@" | sed "s/ /+/g")
+# }
+# s-github() {
+# 	$TBROWSER $(echo "https://www.github.com/search?q=$@" | sed "s/ /+/g")
+# }
+# s-stack() {
+# 	$TBROWSER $(echo "https://www.stackoverflow.com/search?q=$@" | sed "s/ /+/g")
+# }
+# s-reddit() {
+# 	$TBROWSER $(echo "https://www.reddit.com/search?q=$@" | sed "s/ /+/g")
+# }
+# 
+# s-wiki() {
+# 	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\!w $@" | sed "s/ /+/g")
+# }
+# 
+# s-news() {
+# 	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\!n $@" | sed "s/ /+/g")
+# }
+# 
+# s-yt() {
+# 	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\!yt $@" | sed "s/ /+/g")
+# }
+# 
+# s-youtube() {
+# 	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\!yt $@" | sed "s/ /+/g")
+# }
+# 
+# s-map() {
+# 	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\!m $@" | sed "s/ /+/g")
+# }
+# 
+# s-image() {
+# 	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\!i $@" | sed "s/ /+/g")
+# }
+# 
+# s-ducky() {
+# 	$TBROWSER $(echo "https://www.duckduckgo.com/?q=\! $@" | sed "s/ /+/g")
+# }
 
 if command -v doas >/dev/null 2>&1; then
 	root_cmd='doas'
@@ -146,15 +146,12 @@ if command -v emacsclient >/dev/null 2>&1; then
 	alias em=emacsclient
 fi
 
-if command -v vim.tiny >/dev/null 2>&1; then
+
+if command -v vim.nox >/dev/null 2>&1; then
+	alias vim="vim.nox"
+elif command -v vim.tiny >/dev/null 2>&1; then
 	alias vim="vim.tiny"
-fi
-
-if command -v vim-nox >/dev/null 2>&1; then
-	alias vim="vim-nox"
-fi
-
-if command -v vim >/dev/null 2>&1; then
+elif command -v vim >/dev/null 2>&1; then
 	alias vim="vim"
 fi
 
@@ -194,7 +191,6 @@ else
 	echo 'TRASH-CLI is not installed'
 fi
 
-
 if command -v tmux >/dev/null 2>&1; then
 	tmux_cmd="tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf"
 	alias tt="$tmux_cmd attach-session || $tmux_cmd"
@@ -222,7 +218,6 @@ else
 	echo "GIT is not installed"
 fi
 
-
 if command -v nano >/dev/null 2>&1; then
 	alias nano="nano -c -$"
 else
@@ -235,7 +230,6 @@ if command -v wget >/dev/null 2>&1; then
 else
 	echo 'WGET is not installed'
 fi
-
 
 if command -v xclip >/dev/null 2>&1; then
 	alias c="xclip -selection clipboard"
@@ -251,7 +245,6 @@ else
 	echo 'NMAP is not installed'
 fi
 
-
 if command -v s2ram >/dev/null 2>&1; then
 	alias sus="s2ram -f -a 1"
 	alias hibernate="s2disk"
@@ -260,7 +253,6 @@ else
 	alias sus="systemctl suspend"
 	alias hibernate="systemctl hibernate"
 fi
-
 
 if command -v curl >/dev/null 2>&1; then
 	alias myip="curl ifconfig.me/ip"

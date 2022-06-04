@@ -3,14 +3,11 @@ bind 'set completion-ignore-case on'
 bind 'set show-all-if-ambiguous on'
 bind 'TAB:menu-complete'
 
-
 complete -cf sudo
 complete -cf man
 
-
 set -o vi
 set complete_aliases
-
 
 shopt -s cmdhist
 shopt -s histverify
@@ -33,22 +30,22 @@ shopt -s lastpipe
 shopt -s nocasematch
 shopt -s shift_verbose
 
-
-export SHELL=/bin/bash
-export EDITOR=emacsclient
-export TBROWSER=w3m
-export TERMINAL=st
-export READER=zathura
-export VIDEOPLAYER=mpv
-export IMAGEVIEWER=feh
-export GBROWSER=firefox-esr
-if command -v xiwi >/dev/null 2>&1; then
-    export TERMINAL="xiwi $TERMINAL"
-    export READER="xiwi $READER"
-    export VIDEOPLAYER="xiwi $VIDEOPLAYER"
-    export IMAGEVIEWER="xiwi $IMAGEVIEWER"
-    export GBROWSER="xiwi $GBROWSER"
-fi
+# export SHELL=/bin/bash
+# export EDITOR=emacsclient
+# export TBROWSER=w3m
+# export TERMINAL=st
+# export READER=zathura
+# export VIDEOPLAYER=mpv
+# export IMAGEVIEWER=feh
+# export GBROWSER=firefox-esr
+# 
+# if command -v xiwi >/dev/null 2>&1; then
+#     export TERMINAL="xiwi $TERMINAL"
+#     export READER="xiwi $READER"
+#     export VIDEOPLAYER="xiwi $VIDEOPLAYER"
+#     export IMAGEVIEWER="xiwi $IMAGEVIEWER"
+#     export GBROWSER="xiwi $GBROWSER"
+# fi
 
 export HISTFILE=$HOME/.config/cl_history
 export SAVEHIST=200000000
@@ -56,9 +53,9 @@ export HISTSIZE=20000000000
 export HISTCONTROL=ignoreboth:erasedups
 export HISTIGNORE="df*:free*:&:ls:[bf]g:history:exit"
 
-export WLAN_INTERFACE=wlan0
-export WORKON_HOME=$HOME/.py_workspace
-export PROJECT_HOME=$HOME/projects
+# export WLAN_INTERFACE=wlan0
+# export WORKON_HOME=$HOME/.py_workspace
+# export PROJECT_HOME=$HOME/projects
 export SCRIPT_FOLDER="$HOME/.config/scripts"
 
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
@@ -84,7 +81,6 @@ export MOZ_USE_XINPUT2="1"  # Mozilla smooth scrolling/touchpads.
 #export LANG="en_UK.UTF-8"
 #export LANGUAGE="en_UK.UTF-8"
 #export LC_ALL="en_UK.UTF-8"
-
 
 if ! shopt -oq posix; then
 	if [ -f /usr/share/bash-completion/bash_completion ]; then
@@ -145,8 +141,5 @@ fi
 [ -f $HOME/.config/promptrc ]                  && source $HOME/.config/promptrc
 [ -f $HOME/.config/aliasrc ]                   && source $HOME/.config/aliasrc
 [ -f $HOME/.fzf.bash ]                         && source $HOME/.fzf.bash
-[ -f $HOME/.config/broot/launcher/bash/br ]    && source $HOME/.config/broot/launcher/bash/br
-[ -f /usr/local/bin/virtualenvwrapper.sh ]     && source /usr/local/bin/virtualenvwrapper.sh 
-[ -f /usr/share/virtualenvwrapper/virtualenvwrapper.sh ] && source /usr/share/virtualenvwrapper/virtualenvwrapper.sh
 
 [ -z "$DISPLAY" ] || setxkbmap -option caps:super

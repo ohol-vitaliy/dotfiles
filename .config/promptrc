@@ -56,9 +56,6 @@ prompt_git() {
 	fi;
 }
 
-
-
-
 if tput setaf 1 &> /dev/null; then
 	tput sgr0; # reset colors
 	bold=$(tput bold);
@@ -106,29 +103,23 @@ else
 	hostStyle="${cyan}";
 fi;
 
-
-
-
-
-
-
 prompt_ps(){
 	PS1="\\[\\033]0;\\w\\007\\]"
 	if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
 		debian_chroot=$(cat /etc/debian_chroot)
 		PS1+="\\[${green}\\]${debian_chroot:+($debian_chroot)}   "
 	fi
-	if [ -f "$SCRIPT_FOLDER/battery" ];then
-		PS1+="\\[${yellow}\\]$($SCRIPT_FOLDER/battery)   "
-	fi
 	if [ -f "$SCRIPT_FOLDER/ram" ];then
 		PS1+="\\[${green}\\]RAM $($SCRIPT_FOLDER/ram)   "
 	fi
-	if command -v iw >/dev/null 2>&1; then
-		PS1+="\\[${violet}\\]$($SCRIPT_FOLDER/wlan --info)   "
-	fi
 	if [ -f "$SCRIPT_FOLDER/uptime" ];then
 		PS1+="\\[${white}\\]$($SCRIPT_FOLDER/uptime)   "
+	fi
+	PS1+="\\n" # newline
+	if command -v iw >/dev/null 2>&1; then
+		if [ -f "$SCRIPT_FOLDER/wlan" ];then
+			PS1+="\\[${violet}\\]$($SCRIPT_FOLDER/wlan --info)   "
+		fi
 	fi
 	PS1+="\\n" # newline
 	if [ -f "$SCRIPT_FOLDER/thermal" ];then
@@ -137,7 +128,6 @@ prompt_ps(){
 	PS1+="\\n" # newline
 
 	ifnewline=0
-
 	if command -v mount >/dev/null 2>&1; then
 		if [ -f "$SCRIPT_FOLDER/mounts" ];then
 			PS1+="\\[${purple}\\]mounted: $($SCRIPT_FOLDER/mounts)   "
@@ -148,28 +138,10 @@ prompt_ps(){
 		PS1+="\\[${cyan}\\]trash: $(trash-list | wc -l)   "
 		ifnewline=1
 	fi
-	if command -v amixer >/dev/null 2>&1; then
-		if [ -f "$SCRIPT_FOLDER/volume" ];then
-			PS1+="\\[${white}\\]vol: $($SCRIPT_FOLDER/volume)   "
-			ifnewline=1
-		fi
-	fi
-	if command -v xrandr >/dev/null 2>&1; then
-		if [ -f "$SCRIPT_FOLDER/bright" ];then
-			PS1+="\\[${yellow}\\]bright: $($SCRIPT_FOLDER/bright)   "
-			ifnewline=1
-		fi
-	fi
-	if command -v setxkbmap >/dev/null 2>&1; then
-		if [ -f "$SCRIPT_FOLDER/keyboard" ];then
-			PS1+="\\[${cyan}\\]xkb: $($SCRIPT_FOLDER/keyboard)   "
-			ifnewline=1
-		fi
-	fi
-
 	if (( ifnewline == 1 )); then
 		PS1+="\\[${bold}\\]\\n" # newline
 	fi
+	
 	[ -z "$VIRTUAL_ENV" ] || PS1+="\\[${cyan}\\][$(echo $VIRTUAL_ENV | rev | cut -d/ -f1 | rev)] "
 	PS1+="\\[${userStyle}\\]\\u" # username
 	PS1+="\\[${white}\\] at "
