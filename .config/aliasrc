@@ -163,6 +163,22 @@ else
 fi
 
 
+if command -v docker >/dev/null 2>&1; then
+	ddu(){ docker compose -f "$1" up -d --build ; };
+	ddd(){ docker compose -f "$1" down ; };
+	ddr(){ docker compose -f "$1" restart ; };
+	alias ddstop="docker stop"
+	alias ddstart="docker start"
+	alias ddlog="docker logs"
+	alias ddexec="docker run"
+	alias ddrun="docker run"
+	alias ddps="docker ps"
+	alias ddpsi="docker ps --format \"{{.Image}}\""
+	alias ddpsn="docker ps --format \"{{.Names}}\""
+else
+	echo 'DOCKER is not installed'
+fi
+
 if command -v gnugo >/dev/null 2>&1; then
 	alias go9="gnugo --boardsize 9  --color black --komi 0 --chinese-rule"
 	alias go13="gnugo --boardsize 13 --color black --komi 0 --chinese-rule"
