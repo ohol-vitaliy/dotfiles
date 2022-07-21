@@ -62,6 +62,7 @@ export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
+export TERM="screen-256colors"
 export LESS='-R -g -w'
 export LESSHISTFILE="-"
 export ALSA_CONFIG_PATH="$HOME/.config/alsa/asoundrc"
@@ -100,6 +101,7 @@ fi
 git config --global user.email "ohol.vitaliy@gmail.com"
 git config --global user.name "Vitalii-Ohol"
 git config --global github.user "Vitalii-Ohol"
+git config --global credential.helper cache
 
 clear
 
