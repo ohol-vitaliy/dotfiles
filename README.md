@@ -1,13 +1,8 @@
 # Just another dotfiles repo
 
-These are the dotfiles written or found by me  
-And used on an everyday basis  
+Dotfiles written or found by me and used on an everyday basis
 
-[//]: # (![Initial checks](/../screenshots/screenshots/initial.png "Initial checks"))  
-
-[//]: # (![LS command](/../screenshots/screenshots/ls_and_git.png "LS command and GIT status in prompt"))  
-
-They consists of:
+Consists of:
   * Some useful scripts located at `.config/scripts`
   * Settings for:
     * vim
@@ -19,13 +14,8 @@ They consists of:
     * htop
     * nano
     * rofi
-  * Install scripts and configs for:
-    * dunst `make dunst`
-    * dwm `make dwm`
-    * dmenu `make dmenu`
-    * st `make st`
   * Bunch of fancy aliases and scripts at `.aliasrc`
-  * Customized colorful bash prompt at `.bash_prompt`
+  * Customized colorful bash prompt at `.config/promptrc`
 
 ## Install
 ```
@@ -33,11 +23,7 @@ git clone https://github.com/MisterVitaliy/dotfiles
 cd dotfiles
 make dotfiles
 ```
-Script instead of moving all files to the home directory create symlinks.  
+Script creates symlinks instead of moving all files to the home directory.  
 **CAUTION: installation of this dotfiles will remove your configs without the ability to restore it!**  
-
-Additionally you need to write `:PlugInstall` inside **vim** to install all shiny plugins  
-
-[//]: # (![Configured vim](/../screenshots/screenshots/vim.png "Configured VIM in action"))  
 
 *`make help` can be used to find other options*

@@ -30,22 +30,9 @@ shopt -s lastpipe
 shopt -s nocasematch
 shopt -s shift_verbose
 
-# export SHELL=/bin/bash
-# export EDITOR=emacsclient
-# export TBROWSER=w3m
-# export TERMINAL=st
-# export READER=zathura
-# export VIDEOPLAYER=mpv
-# export IMAGEVIEWER=feh
-# export GBROWSER=firefox-esr
-# 
-# if command -v xiwi >/dev/null 2>&1; then
-#     export TERMINAL="xiwi $TERMINAL"
-#     export READER="xiwi $READER"
-#     export VIDEOPLAYER="xiwi $VIDEOPLAYER"
-#     export IMAGEVIEWER="xiwi $IMAGEVIEWER"
-#     export GBROWSER="xiwi $GBROWSER"
-# fi
+export SHELL=/bin/bash
+export EDITOR=nvim
+export TBROWSER=w3m
 
 export HISTFILE=$HOME/.config/cl_history
 export SAVEHIST=200000000
@@ -54,8 +41,6 @@ export HISTCONTROL=ignoreboth:erasedups
 export HISTIGNORE="df*:free*:&:ls:[bf]g:history:exit"
 
 # export WLAN_INTERFACE=wlan0
-# export WORKON_HOME=$HOME/.py_workspace
-# export PROJECT_HOME=$HOME/projects
 export SCRIPT_FOLDER="$HOME/.config/scripts"
 
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
@@ -76,12 +61,8 @@ export BASH_COMPLETION_USER_FILE="$XDG_CONFIG_HOME"/bash-completion/bash_complet
 export TMUX_TMPDIR="$XDG_RUNTIME_DIR"
 export QT_QPA_PLATFORMTHEME="gtk2"  # Have QT use gtk2 theme.
 export MOZ_USE_XINPUT2="1"  # Mozilla smooth scrolling/touchpads.
-#export DISTRO=$(cat /etc/os-release | grep ID | head -n 1 | cut -d= -f2)
-#export DISTRO=${DISTRO:-debian}
-#export TZ="Europe/Warsaw"
-#export LANG="en_UK.UTF-8"
-#export LANGUAGE="en_UK.UTF-8"
-#export LC_ALL="en_UK.UTF-8"
+export DISTRO=$(cat /etc/os-release | grep ID | head -n 1 | cut -d= -f2)
+export DISTRO=${DISTRO:-debian}
 
 if ! shopt -oq posix; then
 	if [ -f /usr/share/bash-completion/bash_completion ]; then
@@ -100,17 +81,10 @@ fi
 
 git config --global user.email "ohol.vitaliy@gmail.com"
 git config --global user.name "Vitalii-Ohol"
-git config --global github.user "Vitalii-Ohol"
+git config --global github.user "ohol-vitaliy"
 git config --global credential.helper cache
 
 clear
-
-if command -v xrandr >/dev/null 2>&1; then
-	export MONITOR_ONE=$(xrandr -q | grep connected | awk 'NR==1{print $1}')
-	export MONITOR_TWO=$(xrandr -q | grep connected | awk 'NR==2{print $1}')
-else
-	echo "XRANDR not installed..."
-fi
 
 if command -v neofetch >/dev/null 2>&1; then
 	neofetch
@@ -132,16 +106,9 @@ fi
 
 
 [ -d "$SCRIPT_FOLDER" ]                 && export PATH="$PATH:$SCRIPT_FOLDER"
-# [ ! -d ~/Documents ]                    && mkdir ~/Documents     || echo "Documents already exist"
-# [ ! -d ~/Downloads ]                    && mkdir ~/Downloads     || echo "Downloads already exist"
-# [ ! -d ~/Music ]                        && mkdir ~/Music         || echo "Music already exist"
-# [ ! -d ~/Pictures ]                     && mkdir ~/Pictures      || echo "Pictures already exist"
-# [ ! -d ~/Videos ]                       && mkdir ~/Videos        || echo "Videos already exist"
-# [ ! -d "$WORKON_HOME" ]                 && mkdir "$WORKON_HOME"  || echo "Python ENV home already exist"
-# [ ! -d "$PROJECT_HOME" ]                && mkdir "$PROJECT_HOME" || echo "projecthome already exist"
 
 [ -f $HOME/.config/promptrc ]                  && source $HOME/.config/promptrc
 [ -f $HOME/.config/aliasrc ]                   && source $HOME/.config/aliasrc
 [ -f $HOME/.fzf.bash ]                         && source $HOME/.fzf.bash
 
-[ -z "$DISPLAY" ] || setxkbmap -option caps:super
+# [ -z "$DISPLAY" ] || setxkbmap -option caps:super

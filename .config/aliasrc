@@ -181,34 +181,6 @@ else
 	echo 'DOCKER is not installed'
 fi
 
-if command -v gnugo >/dev/null 2>&1; then
-	alias go9="gnugo --boardsize 9  --color black --komi 0 --chinese-rule"
-	alias go13="gnugo --boardsize 13 --color black --komi 0 --chinese-rule"
-	alias go19="gnugo --boardsize 19 --color black --komi 0 --chinese-rule"
-else
-	echo 'GNUGO is not installed'
-fi
-
-
-if command -v youtube-dl >/dev/null 2>&1; then
-	alias yt-playlist="youtube-dl -cit -f best --yes-playlist"
-	alias yt-video="youtube-dl -cit -f best"
-	alias yt-audio="youtube-dl -x --audio-format mp3"
-else
-	echo 'YOUTUBE-DL is not installed'
-fi
-
-if command -v trash >/dev/null 2>&1; then
-	alias rm="trash-put"
-	alias rm-put="trash-put"
-	alias rm-list="trash-list"
-	alias rm-empty="trash-empty"
-	alias rm-clear="trash-empty"
-	alias rm-restore="trash-restore"
-else
-	echo 'TRASH-CLI is not installed'
-fi
-
 if command -v tmux >/dev/null 2>&1; then
 	tmux_cmd="tmux -f ${XDG_CONFIG_HOME:-$HOME/.config}/tmux/tmux.conf"
 	alias tt="$tmux_cmd attach-session || $tmux_cmd"
@@ -235,6 +207,7 @@ if command -v git >/dev/null 2>&1; then
 else
 	echo "GIT is not installed"
 fi
+
 
 if command -v nano >/dev/null 2>&1; then
 	alias nano="nano -c -$"
@@ -284,42 +257,41 @@ else
 fi
 
 
-if command -v vboxmanage >/dev/null 2>&1; then
-	alias vbox-list="vboxmanage list vms"
-	alias vbox-start="vboxmanage startvm"
-else
-	echo 'VirtualBox is not installed'
+if command -v info >/dev/null 2>&1; then
+	alias info="info --vi-keys"
 fi
 
 
 if command -v fzf >/dev/null 2>&1; then
-	h() {
+	function h {
 		eval "$(history | cut -c 8- | uniq | fzf +s --tac)"
 	}
 
-	c() {
+	function c {
 		local dir
-		dir=$(find "${1:-$HOME/}" -type d 2>/dev/null | \
-			fzf --border --preview "ls {}") && cd "$dir" || echo "Cancelling.."
+		dir=$(find -L "${1:-$HOME/}" -type d 2>/dev/null | fzf --border --preview "ls {}") && cd "$dir" || echo "Cancelling.."
 	}
 
-	e() {
+	function e {
 		local file
-		file=$(find "${1:-$HOME/}" -type f 2>/dev/null | fzf --border --preview '[[ $(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=numbers --color=always {} || highlight -O ansi -l {} || coderay {} || rougify {} || cat {}) 2> /dev/null | head -500') \
-			&& $EDITOR "$file" || echo "Cancelling.."
+		file=$(find -L "${1:-$HOME/}" -type f 2>/dev/null \
+			| fzf --border --preview \
+			'[[ $(file --mime {}) =~ binary ]] && echo {} is a binary file || (bat --style=numbers --color=always {} || highlight -O ansi -l {} || coderay {} || rougify {} || cat {}) 2> /dev/null | head -500') \
+		&& $EDITOR "$file" \
+		|| echo "Cancelling.."
 	}
 
-	k() {
+	function k {
 		local pid
 		pid=$(ps -ef | sed 1d | fzf -m | awk '{print $2}')
-		if [ "x$pid" != "x" ]
-		then
-		echo "$pid" | xargs kill -"${1:-9}"
+
+		if [ "x$pid" != "x" ]; then
+			echo "$pid" | xargs kill -"${1:-9}"
 		fi
 	}
 
 	if command -v git >/dev/null 2>&1; then
-		gc_commit() {
+		function gc_commit {
 			local commits branches choices choice
 			commits=$(git log --pretty=oneline --abbrev-commit --reverse) &&
 			branches=$(git branch --all | grep -v HEAD | sed "s/[* ] //" | sed "s#remotes/##") &&
@@ -337,29 +309,38 @@ fi
 # kill all processes using regex patterns
 # very usefull when you wan't to completely smash that BLOAT Chrome browser,
 # or milion instances of your buggy multiprocess app :P
-killallproc(){ pgrep "$1" | xargs kill -9 ;}
+function killallproc { 
+	pgrep "$1" | xargs kill -9 
+}
 
 # I like to mount everything in mnt folder so created two funcs:
 # Mount Unit and Unmount Unit
 # && and || are essential at that places
-mu() { rm -r /mnt/"${1:?}" ;
-	   mkdir /mnt/"$1" \
-			&& mount /dev/"$1" /mnt/"$1" \
-			&& cd /mnt/"$1" \
-			|| echo "Error" ;}
-uu() { umount /mnt/"$1" ; rm -rf /mnt/"${1:?}" ;}
+function mu { 
+	rm -r /mnt/"${1:?}"
+	mkdir /mnt/"$1" \
+		&& mount /dev/"$1" /mnt/"$1" \
+		&& cd /mnt/"$1" \
+		|| echo "Error"
+}
+function uu { 
+	umount /mnt/"$1"
+	rm -rf /mnt/"${1:?}"
+}
 
 # beautify users list
-users(){ id "$1" \
-			| tr ' ' '\n' \
-			| sed 's/(/ (/g' \
-			| sed 's/=/ = /g' \
-			| sed 's/,/,\n\t /g' ;}
+function users { 
+	id "$1" \
+	| tr ' ' '\n' \
+	| sed 's/(/ (/g' \
+	| sed 's/=/ = /g' \
+	| sed 's/,/,\n\t /g'
+}
 # http://www.commandlinefu.com/commands/view/954
 
 
 # colorize man output
-man(){
+function man {
   env LESS_TERMCAP_mb=$'\E[01;31m' \
   LESS_TERMCAP_md=$'\E[01;31m' \
   LESS_TERMCAP_me=$'\E[0m' \
@@ -373,8 +354,7 @@ man(){
 
 # extract archive
 # syntax: ex <path to archive> (example: ex test.zip)
-ex ()
-{
+function ex {
   if [ -f "$1" ] ; then
     case "$1" in
       *.tar.bz2)   tar xjf "$1"     ;;
@@ -403,14 +383,15 @@ ex ()
 # compress file or folder
 # syntax: compr <FILE/FOLDER> <TYPE ex. zip, tar, rar>
 # (example: compr test_folder zip)
-compr()
-{
+function compr {
 	dirPriorToExe=$(pwd)
 	dirName=$(dirname "$1")
 	baseName=$(basename "$1")
+
 	if [ -f "$1" ] ; then
 		echo "It was a file change directory to $dirName"
 		cd "$dirName" || return 1
+
 		case $2 in
 			tar.bz2)
 			tar cjf "$baseName".tar.bz2 "$baseName"
@@ -438,6 +419,7 @@ compr()
 		if [ -d "$1" ] ; then
 			echo "It was a Directory change directory to $dirName"
 			cd "$dirName" || return 1
+
 			case $2 in
 				tar.bz2)
 				tar cjf "$baseName".tar.bz2 "$baseName"

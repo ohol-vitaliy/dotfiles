@@ -105,43 +105,36 @@ fi;
 
 prompt_ps(){
 	PS1="\\[\\033]0;\\w\\007\\]"
+
 	if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
 		debian_chroot=$(cat /etc/debian_chroot)
-		PS1+="\\[${green}\\]${debian_chroot:+($debian_chroot)}   "
+		PS1+="\\[${green}\\]${debian_chroot:+($debian_chroot)}\n"
 	fi
+
 	if [ -f "$SCRIPT_FOLDER/ram" ];then
-		PS1+="\\[${green}\\]RAM $($SCRIPT_FOLDER/ram)   "
+		PS1+="\\[${green}\\]RAM $($SCRIPT_FOLDER/ram)\n"
 	fi
+
 	if [ -f "$SCRIPT_FOLDER/uptime" ];then
-		PS1+="\\[${white}\\]$($SCRIPT_FOLDER/uptime)   "
+		PS1+="\\[${white}\\]$($SCRIPT_FOLDER/uptime)\n"
 	fi
-	PS1+="\\n" # newline
+
 	if command -v iw >/dev/null 2>&1; then
 		if [ -f "$SCRIPT_FOLDER/wlan" ];then
-			PS1+="\\[${violet}\\]$($SCRIPT_FOLDER/wlan --info)   "
+			PS1+="\\[${violet}\\]$($SCRIPT_FOLDER/wlan --info)\n"
 		fi
 	fi
-	PS1+="\\n" # newline
-	if [ -f "$SCRIPT_FOLDER/thermal" ];then
-		PS1+="\\[${violet}\\]$($SCRIPT_FOLDER/thermal)   "
-	fi
-	PS1+="\\n" # newline
 
-	ifnewline=0
+	if [ -f "$SCRIPT_FOLDER/thermal" ];then
+		PS1+="\\[${violet}\\]$($SCRIPT_FOLDER/thermal)\n"
+	fi
+
 	if command -v mount >/dev/null 2>&1; then
 		if [ -f "$SCRIPT_FOLDER/mounts" ];then
-			PS1+="\\[${purple}\\]mounted: $($SCRIPT_FOLDER/mounts)   "
-			ifnewline=1
+			PS1+="\\[${purple}\\]mounted: $($SCRIPT_FOLDER/mounts)\n"
 		fi
 	fi
-	if command -v trash >/dev/null 2>&1; then
-		PS1+="\\[${cyan}\\]trash: $(trash-list | wc -l)   "
-		ifnewline=1
-	fi
-	if (( ifnewline == 1 )); then
-		PS1+="\\[${bold}\\]\\n" # newline
-	fi
-	
+
 	[ -z "$VIRTUAL_ENV" ] || PS1+="\\[${cyan}\\][$(echo $VIRTUAL_ENV | rev | cut -d/ -f1 | rev)] "
 	PS1+="\\[${userStyle}\\]\\u" # username
 	PS1+="\\[${white}\\] at "
