@@ -168,6 +168,12 @@ else
 	echo "RIPGREP is not installed"
 fi
 
+if command -v bat >/dev/null 2>&1; then
+	alias cat=bat
+else
+	echo "BAT is not installed"
+fi
+
 
 if command -v docker >/dev/null 2>&1; then
 	ddu(){ docker compose -f "$1" up -d --build ; };
