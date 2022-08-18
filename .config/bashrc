@@ -83,6 +83,7 @@ git config --global user.email "ohol.vitaliy@gmail.com"
 git config --global user.name "Vitalii-Ohol"
 git config --global github.user "ohol-vitaliy"
 git config --global credential.helper cache
+git config --global pull.rebase true
 
 clear
 
