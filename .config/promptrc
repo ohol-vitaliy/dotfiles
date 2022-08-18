@@ -134,7 +134,7 @@ prompt_ps(){
 			PS1+="\\[${purple}\\]mounted: $($SCRIPT_FOLDER/mounts)\n"
 		fi
 	fi
-
+	
 	[ -z "$VIRTUAL_ENV" ] || PS1+="\\[${cyan}\\][$(echo $VIRTUAL_ENV | rev | cut -d/ -f1 | rev)] "
 	PS1+="\\[${userStyle}\\]\\u" # username
 	PS1+="\\[${white}\\] at "

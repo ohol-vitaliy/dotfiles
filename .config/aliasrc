@@ -101,6 +101,10 @@ else
 fi
 alias sudo="$root_cmd " # sudo to work with aliases
 
+if command -v info >/dev/null 2>&1; then
+	alias info='info --vi-keys'
+fi
+
 if command -v pacman >/dev/null 2>&1; then
 	echo "Using PACMAN package manager"
 	alias paci="$root_cmd pacman -S"
