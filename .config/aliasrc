@@ -18,9 +18,6 @@ alias ..2="cd ../.."
 alias ..3="cd ../../.."
 alias ..4="cd ../../../.."
 alias ..5="cd ../../../../.."
-alias ls="ls -lhF --color=always"
-alias la="ls -lah --color=always"
-alias ll="ls -lah --color=always"
 alias mkdir="mkdir -pv"
 alias cp="cp -riv"
 alias mv="mv -iv"
@@ -174,6 +171,16 @@ else
 	echo "BAT is not installed"
 fi
 
+if command -v exa >/dev/null 2>&1; then
+	alias ls="exa -lh --git"
+	alias la="exa -lah --git"
+	alias ll="exa -lah --git"
+else
+	echo "EXA is not installed"
+	alias ls="ls -lhF --color=always"
+	alias la="ls -lah --color=always"
+	alias ll="ls -lah --color=always"
+fi
 
 if command -v docker >/dev/null 2>&1; then
 	ddu(){ docker compose -f "$1" up -d --build ; };
