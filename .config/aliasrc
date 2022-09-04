@@ -317,6 +317,20 @@ fi
 
 
 
+function encr {
+	openssl enc -aes-256-cbc -pbkdf2 -in "$1" -out "$1.encr"
+}
+
+function decr {
+	if [[ "$1" == *.encr ]]; then
+		openssl enc -d -aes-256-cbc -pbkdf2 -in "$1" -out "${1:0:-5}"
+	else
+		echo "File do end with .encr extension"
+	fi
+}
+
+
+
 # kill all processes using regex patterns
 # very usefull when you wan't to completely smash that BLOAT Chrome browser,
 # or milion instances of your buggy multiprocess app :P

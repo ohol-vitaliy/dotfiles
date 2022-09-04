@@ -31,7 +31,7 @@ shopt -s nocasematch
 shopt -s shift_verbose
 
 export SHELL=/bin/bash
-export EDITOR=nvim
+export EDITOR=vim.nox
 export TBROWSER=w3m
 
 export HISTFILE=$HOME/.config/cl_history
