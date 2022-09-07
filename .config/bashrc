@@ -31,8 +31,18 @@ shopt -s nocasematch
 shopt -s shift_verbose
 
 export SHELL=/bin/bash
-export EDITOR=vim.nox
 export TBROWSER=w3m
+
+if command -v nvim >/dev/null 2>&1; then
+	export EDITOR=nvim
+elif command -v vim.nox >/dev/null 2>&1; then
+	export EDITOR=vim.nox
+elif command -v vim.tiny >/dev/null 2>&1; then
+	alias vim="vim.tiny"
+	export EDITOR=vim.tiny
+elif command -v vim >/dev/null 2>&1; then
+	export EDITOR=vim
+fi
 
 export HISTFILE=$HOME/.config/cl_history
 export SAVEHIST=200000000
@@ -47,7 +57,6 @@ export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_DATA_HOME="$HOME/.local/share"
-export TERM="screen-256colors"
 export LESS='-R -g -w'
 export LESSHISTFILE="-"
 export ALSA_CONFIG_PATH="$HOME/.config/alsa/asoundrc"
@@ -63,6 +72,7 @@ export QT_QPA_PLATFORMTHEME="gtk2"  # Have QT use gtk2 theme.
 export MOZ_USE_XINPUT2="1"  # Mozilla smooth scrolling/touchpads.
 export DISTRO=$(cat /etc/os-release | grep ID | head -n 1 | cut -d= -f2)
 export DISTRO=${DISTRO:-debian}
+export RECSTASH="/data/data/com.termux/files/home/journal/CSVs/bookmarks"
 
 if ! shopt -oq posix; then
 	if [ -f /usr/share/bash-completion/bash_completion ]; then
