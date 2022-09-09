@@ -165,6 +165,12 @@ else
 	echo "RIPGREP is not installed"
 fi
 
+if command -v remind >/dev/null 2>&1; then
+	alias remind="remind -b1 -m -@2"
+else
+	echo "REMIND is not installed"
+fi
+
 if command -v bat >/dev/null 2>&1; then
 	alias cat=bat
 elif command -v batcat >/dev/null 2>&1; then
