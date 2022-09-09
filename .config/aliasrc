@@ -279,6 +279,10 @@ if command -v info >/dev/null 2>&1; then
 	alias info="info --vi-keys"
 fi
 
+if command -v python >/dev/null 2>&1; then
+	alias calc='python -ic "from math import *; from random import *"'
+fi
+
 
 if command -v fzf >/dev/null 2>&1; then
 	function h {
