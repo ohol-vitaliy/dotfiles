@@ -147,6 +147,9 @@ if command -v emacsclient >/dev/null 2>&1; then
 	alias em=emacsclient
 fi
 
+if command -v ledger >/dev/null 2>&1; then
+	alias ledger="ledger --pedantic"
+fi
 
 if command -v nvim >/dev/null 2>&1; then
 	alias vim="nvim"
