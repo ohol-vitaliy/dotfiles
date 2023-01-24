@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/python3
 # Author: Alexandre Boeglin
 # Info: send magnet links to your torrent client
 # Source: http://boeglin.org/blog/index.php?entry=Handling-magnet-URIs-with-w3m
@@ -20,15 +20,14 @@ uri = os.environ.get('QUERY_STRING')
 referer = os.environ.get('HTTP_REFERER')
 
 if not uri:
-    print
-    print "Error: No URI"
+    print()
+    print("Error: No URI")
     sys.exit()
 
 cmd_list = ("transmission-remote", "-a", uri)
-
 subprocess.call(cmd_list)
 
 if referer:
-    print "HTTP/1.1 303 See Other"
-    print "Location: %s" % referer
+    print("HTTP/1.1 303 See Other")
+    print("Location: %s" % referer)
 
