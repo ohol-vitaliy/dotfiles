@@ -1,8 +1,0 @@
-#!/usr/bin/sh
-
-while true; do
-	xsetroot -name "$(date)"
-	sleep 1s
-done &
-feh --bg-fill ~/ruby.png &
-dwm &
