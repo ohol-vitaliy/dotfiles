@@ -166,7 +166,6 @@ keymap  j       MOVE_DOWN1
 keymap  k       MOVE_UP1
 keymap  UP      MOVE_UP1
 
-
 keymap  0       LINE_BEGIN
 keymap  $       LINE_END
 keymap  zh      CENTER_H
@@ -176,15 +175,12 @@ keymap  gg      BEGIN
 keymap  G       END
 keymap  w       NEXT_LINK
 keymap  b       PREV_LINK
-# keymap	f	    NEXT_LINK
-# keymap	F	    PREV_LINK
 
 keymap	SPC     GOTO_LINK
 keymap	C-j     GOTO_LINK
 keymap	t       TAB_LINK
 keymap  C-n     NEXT_LINK
 keymap  C-p     PREV_LINK
-# keymap  C-o     UNDO
 
 keymap	i       VIEW_IMAGE
 keymap  ESC-C-j SUBMIT
@@ -192,32 +188,23 @@ keymap  pk      PEEK
 keymap  pl      PEEK_LINK
 keymap  pi      PEEK_IMG
 keymap  gi      INFO
-# keymap  C-g     LINE_INFO
 keymap	";"     MARK_URL
 keymap	,       MARK_WORD
 
-# keymap  ]       EXTERN
-# keymap  e       EXTERN_LINK ~/.scripts/ninjutsu/urlportal
-
-
-
 keymap  o     GOTO
-keymap  ^o    GOTO_RELATIVE
 keymap  O     TAB_GOTO
-keymap  gc    TAB_GOTO https://google.com
-keymap  ^O    TAB_GOTO_RELATIVE
 keymap  :e    LOAD
 
-keymap  L       NEXT
-keymap  H       PREV
+keymap  L     NEXT
+keymap  H     PREV
 keymap  K     NEXT_TAB
 keymap  J     PREV_TAB
 
 keymap  gv    VIEW
-keymap  :w  SAVE
-keymap  S  SAVE_LINK
-keymap  C-r RELOAD
-keymap  r   RELOAD
+keymap  :w    SAVE
+keymap  S     SAVE_LINK
+keymap  C-r   RELOAD
+keymap  r     RELOAD
 
 
 keymap  n     SEARCH_NEXT
@@ -225,95 +212,26 @@ keymap  N     SEARCH_PREV
 keymap  /     ISEARCH
 keymap  ?     ISEARCH_BACK
 
-keymap  gf      MOVE_LIST_MENU
-keymap  gF      LIST_MENU
-
-keymap  gl      LIST
-keymap  gL      LINK_MENU
-keymap  gb      SELECT_MENU
-keymap  gM      MAIN_MENU
-keymap  gt      TAB_MENU
-
-keymap  :H      HELP
-keymap	:O      OPTIONS
-keymap	:V      VERSION
-keymap  gH      HISTORY
-keymap  :h      HISTORY
-keymap  gd      DOWNLOAD_LIST
-keymap  ::      COMMAND
-
-keymap  :q    QUIT
-keymap  q    QUIT
+keymap  q     QUIT
 keymap  ZZ    QUIT
 keymap  ZQ    EXIT
 keymap	Q     EXIT
 
 # }}}
 
-# External Commands {{{
-# EXTERN_LINK = under cursor
-# EXTERN      = current page
-
-# yank url to clipboard
-# keymap  yx      EXTERN_LINK   '(echo -n %s | xsel -b)'
-# keymap  yx      EXTERN_LINK   '(printf %s | xsel -b)'
-# keymap  YX      EXTERN        '(printf %s | xsel -b)'
-# yank url to tmux clipboard
-# keymap  yy      EXTERN_LINK   'tmux set-buffer'
-# keymap  YY      EXTERN        'tmux set-buffer'
-
-# queue download file (task-spooler)
-# keymap  xd      EXTERN_LINK   'TS_SOCKET=/tmp/w3m tsp aria2c -j 1 -x 2 -c -d ~/Downloads'
-# keymap  yd      EXTERN_LINK   'youtube-dl -o "~/Downloads/%(title)s.%(ext)s"'
-# keymap  xd      EXTERN_LINK   'diana add'
-# keymap  XD      EXTERN_LINK   'diana --pause add'
-# keymap  xD      SHELL         'diana-mui'
-
-# keymap  wg      EXTERN_LINK   'TS_SOCKET=/tmp/w3m tsp wget -c -P /media/EdoTensei/Wget'
-# keymap  WG      EXTERN        'TS_SOCKET=/tmp/w3m tsp wget -c -P /media/EdoTensei/Wget'
-# keymap  wG      SHELL         'watch TS_SOCKET=/tmp/w3m'
-# keymap  wc      SHELL         'TS_SOCKET=/tmp/w3m -C'
-
-# queue external media player (task-spooler) e.g youtube, video links
-# keymap  xm      EXTERN_LINK   'tsp mpv --ontop --no-border --force-window --autofit=500x280 --geometry=-15-53'
-# keymap  XM      EXTERN        'tsp mpv --ontop --no-border --force-window --autofit=500x280 --geometry=-15-53'
-
-# open external image viewer
-# keymap  xi      EXTERN_LINK   'w3m -o display_image=1 -o imgdisplay=w3mimgdisplay'
-# keymap  xf      EXTERN_LINK   'feh -. -x -B black -g 900x600-15+60 %s &'
-# keymap  xF      EXTERN_LINK   'mpv --loop --quiet --ontop --no-border --force-window --autofit=900x600 --geometry=-15+60'
-
-# add torrent or magnetlinks
-# keymap  xt      EXTERN_LINK   'transmission-remote --add'
-# keymap  xt      EXTERN_LINK   ~/.scripts/privatescripts/addtorrent-thinkcentre
-# keymap  XT      EXTERN        ~/.sripts/shellscripts/torrentportal
-
-# basic task-spooler view, cat, clear
-# keymap  xs      SHELL         'watch TS_SOCKET=/tmp/w3m tsp'
-# keymap  XS      SHELL         'clear && TS_SOCKET=/tmp/w3m tsp -c'
-# keymap  xc      SHELL         'clear && TS_SOCKET=/tmp/w3m tsp -C'
-
-# keymap  xc      SHELL         'aria2c $W3M_URL'
-# keymap  xc      SHELL         'aria2c $W3M_CURRENT_LINK'
-# keymap  xc      SHELL         'aria2c $W3M_CURRENT_IMG'
-# keymap  xv      SHELL         'vim $W3M_CURRENT_FORM'
-
-# }}}
-
 # Scripts & CGI-BIN {{{
+keymap  u       GOTO file:/cgi-bin/fn_restore_tab.cgi
+keymap  d       GOTO file:/cgi-bin/fn_closetab_stash.cgi
+keymap  y       GOTO file:/cgi-bin/fn_yank_page_url.cgi
+keymap  Y       GOTO file:/cgi-bin/fn_yank_current_link.cgi
+# keymap  gg      GOTO file:/cgi-bin/fn_goto_w3m_clipboard.cgi
 
-# Source: https://github.com/felipesaa/A-vim-like-firefox-like-configuration-for-w3m
-# retore closed tabs
-keymap  u       TAB_GOTO      /usr/lib/w3m/cgi-bin/restore_tab.cgi
-keymap  C-T     TAB_GOTO      /usr/lib/w3m/cgi-bin/restore_tab.cgi
-# close tabs and save url link to file
-keymap  d       COMMAND       "EXTERN 'echo %s >> ~/.w3m/RestoreTab.txt' ; CLOSE_TAB"
-keymap  C-w     COMMAND       "EXTERN 'echo %s >> ~/.w3m/RestoreTab.txt' ; CLOSE_TAB"
+keymap  xx      COMMAND "READ_SHELL ~/.w3m/cgi-bin/fnx_fzfmiru.cgi ; BACK ; GOTO file:/cgi-bin/fnx_execute.cgi ; BACK"
+keymap  xu      COMMAND "READ_SHELL ~/.w3m/cgi-bin/fnx_change_user_agent.cgi ; BACK ; GOTO file:/cgi-bin/fnx_user_agent_set.cgi"
+keymap  xr      GOTO file:/cgi-bin/fn_readerview_readability.cgi
 # }}}
 
 # ### OTHER {{{
-keymap  xx  COMMAND "READ_SHELL ~/.w3m/cgi-bin/fnx_fzfmiru.cgi ; BACK ; GOTO file:/cgi-bin/fnx_execute.cgi ; BACK"
-keymap  xu  COMMAND "READ_SHELL ~/.w3m/cgi-bin/fnx_change_user_agent.cgi ; BACK ; GOTO file:/cgi-bin/fn_user_agent_set.cgi"
 
 
 # https://raw.githubusercontent.com/felipesaa/A-vim-like-firefox-like-configuration-for-w3m/master/documentation/functions.txt

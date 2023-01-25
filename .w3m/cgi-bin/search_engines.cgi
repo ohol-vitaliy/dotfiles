@@ -80,9 +80,6 @@ case $PREFIX in
       echo "W3m-control: GOTO gopher://gopher.floodgap.com/7/v2/vs?$INPUT"
     fi
     ;;
-  ya)
-    echo "W3m-control: GOTO https://search.yahoo.com/search?p=$INPUT"
-    ;;
   yt) # youtube via invidious (more instances @ https://redirect.invidious.io )
     echo "W3m-control: GOTO https://yewtu.be/search?q=$INPUT"
     ;;
