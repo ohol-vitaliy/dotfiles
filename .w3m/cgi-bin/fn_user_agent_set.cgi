@@ -1,4 +1,8 @@
 #!/usr/bin/env sh
-echo "W3m-control: SET_OPTION user_agent=Opera/9.80 (S60; SymbOS; Opera Mobi/SYB-1107071606; U; en) Presto/2.8.149 Version/11.10"
+w3m_tmp=~/.cache/_w3m_ua.txt
+ua=$(cat "$w3m_tmp")
+
+echo "W3m-control: SET_OPTION user_agent=$ua"
 echo "W3m-control: BACK"
 echo "W3m-control: RELOAD"
+echo "W3m-control: REDRAW"

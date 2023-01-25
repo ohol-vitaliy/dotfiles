@@ -207,13 +207,9 @@ keymap  O     TAB_GOTO
 keymap  gc    TAB_GOTO https://google.com
 keymap  ^O    TAB_GOTO_RELATIVE
 keymap  :e    LOAD
-# keymap  @    READ_SHELL
-# keymap  #    PIPE_SHELL
-# keymap  |    PIPE_BUF
 
 keymap  L       NEXT
 keymap  H       PREV
-# keymap  d     CLOSE_TAB
 keymap  K     NEXT_TAB
 keymap  J     PREV_TAB
 
@@ -230,13 +226,13 @@ keymap  /     ISEARCH
 keymap  ?     ISEARCH_BACK
 
 keymap  gf      MOVE_LIST_MENU
-keymap  gl      LIST
 keymap  gF      LIST_MENU
-keymap  ge      LINK_MENU
-# keymap  ga      ACCESSKEY
-keymap  gh      SELECT_MENU
+
+keymap  gl      LIST
+keymap  gL      LINK_MENU
+keymap  gb      SELECT_MENU
 keymap  gM      MAIN_MENU
-keymap  gj      TAB_MENU
+keymap  gt      TAB_MENU
 
 keymap  :H      HELP
 keymap	:O      OPTIONS
@@ -251,6 +247,7 @@ keymap  q    QUIT
 keymap  ZZ    QUIT
 keymap  ZQ    EXIT
 keymap	Q     EXIT
+
 # }}}
 
 # External Commands {{{
@@ -264,12 +261,6 @@ keymap	Q     EXIT
 # yank url to tmux clipboard
 # keymap  yy      EXTERN_LINK   'tmux set-buffer'
 # keymap  YY      EXTERN        'tmux set-buffer'
-
-# open gui browser
-# keymap  xw      EXTERN_LINK   '$BROWSER'
-# keymap  XW      EXTERN        '$BROWSER'
-# keymap  xn      EXTERN_LINK   '$BROWSER_PRIVATE'
-# keymap  XN      EXTERN        '$BROWSER_PRIVATE'
 
 # queue download file (task-spooler)
 # keymap  xd      EXTERN_LINK   'TS_SOCKET=/tmp/w3m tsp aria2c -j 1 -x 2 -c -d ~/Downloads'
@@ -307,20 +298,6 @@ keymap	Q     EXIT
 # keymap  xc      SHELL         'aria2c $W3M_CURRENT_IMG'
 # keymap  xv      SHELL         'vim $W3M_CURRENT_FORM'
 
-# W3M_CHARSET=UTF-8
-# W3M_CURRENT_COLUMN=14
-# W3M_CURRENT_FORM=
-# W3M_CURRENT_IMG=
-# W3M_CURRENT_LINE=14
-# W3M_CURRENT_LINK=https://www.youtube.com/watch?v=n3Nw8MjXWgQ
-# W3M_CURRENT_WORD=Peertube
-# W3M_FILENAME=/
-# W3M_SOURCEFILE=/home/heoyea-ant/.w3m/w3msrc15598-1.html
-# W3M_TITLE=Youtube
-# W3M_TYPE=text/html
-# W3M_URL=http://youtube.com
-
-
 # }}}
 
 # Scripts & CGI-BIN {{{
@@ -332,22 +309,11 @@ keymap  C-T     TAB_GOTO      /usr/lib/w3m/cgi-bin/restore_tab.cgi
 # close tabs and save url link to file
 keymap  d       COMMAND       "EXTERN 'echo %s >> ~/.w3m/RestoreTab.txt' ; CLOSE_TAB"
 keymap  C-w     COMMAND       "EXTERN 'echo %s >> ~/.w3m/RestoreTab.txt' ; CLOSE_TAB"
-
-# open new tab
-# keymap  C-t     TAB_GOTO      https://duckduckgo.com/lite/
-# keymap  t       TAB_GOTO      https://duckduckgo.com/lite/
-# keymap  C-t     COMMAND       "TAB_GOTO https://duckduckgo.com/lite/; NEXT_LINK; GOTO_LINK"
-# keymap  t       COMMAND       "TAB_GOTO https://duckduckgo.com/lite/; NEXT_LINK; GOTO_LINK"
-
 # }}}
 
 # ### OTHER {{{
-keymap  xu      COMMAND       "SHELL ~/.w3m/cgi-bin/user_agent_switcher_tmux.cgi"
-keymap  XU      COMMAND       "SHELL ~/.w3m/cgi-bin/user_agent_switcher.cgi"
-keymap  xo      COMMAND       "SHELL ~/.w3m/cgi-bin/fzf_settings_toggle_tmux.cgi"
-keymap  XO      COMMAND       "SHELL ~/.w3m/cgi-bin/fzf_settings_toggle.cgi"
-# keymap  XX      COMMAND       "SHELL ~/.w3m/cgi-bin/queue2ariadaemon.cgi"
-
+keymap  xx  COMMAND "READ_SHELL ~/.w3m/cgi-bin/fnx_fzfmiru.cgi ; BACK ; GOTO file:/cgi-bin/fnx_execute.cgi ; BACK"
+keymap  xu  COMMAND "READ_SHELL ~/.w3m/cgi-bin/fnx_change_user_agent.cgi ; BACK ; GOTO file:/cgi-bin/fn_user_agent_set.cgi"
 
 
 # https://raw.githubusercontent.com/felipesaa/A-vim-like-firefox-like-configuration-for-w3m/master/documentation/functions.txt
