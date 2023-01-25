@@ -262,31 +262,21 @@ gopher://bitreich.org/1/lawn#@WWW_LAWN&#-- Gopher list of popular gopherhole
 EOF
 }
 
-# clear screen
-printf "\033c"
+# # clear screen
+# printf "\033c"
+clear
 
-w3m_fnx_clipboard=/tmp/w3m_fnx_clipboard.txt
+w3m_fnx_clipboard=~/.cache/_w3m_fnx_clipboard.txt
 
 # not running tmux
-if [ "$TMUX_PANE" = "%0" ] || [ -z "$TMUX" ] || [ -z "$TERM_PROGRAM" ] ; then
-  selection="$( fnx_database | sort -t '@' -k2 | column -t  -s '#' | \
-    fzf -i -e --delimiter '@' --with-nth 2.. --prompt='fzf-miru [$func|&custom|*fav] (run a W3M command): ' \
-    --info=default --layout=reverse --tiebreak=index | \
-    awk '{print $1}' )"
-  [ -z "$selection" ] && echo "" > "$w3m_fnx_clipboard" && exit
+selection="$( fnx_database | sort -t '@' -k2 | column -t  -s '#' | \
+fzf -i -e --delimiter '@' --with-nth 2.. --prompt='fzf-miru [$func|&custom|*fav] (run a W3M command): ' \
+--info=default --layout=reverse --tiebreak=index | \
+awk '{print $1}' )"
+[ -z "$selection" ] && echo "" > "$w3m_fnx_clipboard" && exit
 # tmux -ge 3.2 popup
-elif [ "$TERM_PROGRAM" = tmux ] ; then
-  selection="$( fnx_database | sort -t '@' -k2 | column -t  -s '#' | \
-    fzf-tmux -p -w 80% -h 70% -i -e --delimiter '@' --with-nth 2.. --prompt='fzf-miru [$func|&custom|*fav] (run a W3M command): ' \
-    --info=default --layout=reverse --tiebreak=index | \
-    awk '{print $1}' )"
-  [ -z "$selection" ] && echo "" > "$w3m_fnx_clipboard" && exit
-# tmux -lt 3.2 regular split
-elif [ -n "$TMUX" ] ; then
-  selection="$( fnx_database | sort -t '@' -k2 | column -t  -s '#' | \
-    fzf-tmux -i -e --delimiter '@' --with-nth 2.. --prompt='fzf-miru [$func|&custom|*fav] (run a W3M command): ' \
-    --info=default --layout=reverse --tiebreak=index |
-    awk '{print $1}' )"
-  [ -z "$selection" ] && echo "" > "$w3m_fnx_clipboard" && exit
-fi
 echo "$selection" > "$w3m_fnx_clipboard"
+
+# # clear screen
+# printf "\033c"
+clear
