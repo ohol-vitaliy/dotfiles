@@ -35,7 +35,7 @@ xinput set-prop --type=int --format=8 "SynPS/2 Synaptics TouchPad" "Synaptics Tw
 while true; do
    # xsetroot -name " | $(keyboard) | $(bright) | $(volume) | $(ram) | $(battery) | $( date +"%F %R" ) | "
    batt=$(acpi | awk -F ', ' '{ print $2 }' | paste -d ' ' - -)
-   xsetroot -name "| $(batt) | $(date +"%F %R")"
+   xsetroot -name "| $batt | $(date +"%F %R")"
    sleep 3m
 done &
 
