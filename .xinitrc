@@ -2,11 +2,13 @@
 
 # pulseaudio -D &
 # dunst &
-# compton &
+compton &
 # sxhkd &
 # nm-applet &
 # volumeicon &
-# feh --bg-scale ~/.config/wall.* &
+
+feh --bg-scale ~/.config/wall.* &
+
 # betterlockscreen -u ~/.config/wall.*
 # betterlockscreen -w
 # xautolock -time 10 -locker "betterlockscreen -l dimblur" -corners 0--- &
@@ -34,9 +36,16 @@ xinput set-prop --type=int --format=8 "SynPS/2 Synaptics TouchPad" "Synaptics Tw
 
 while true; do
    # xsetroot -name " | $(keyboard) | $(bright) | $(volume) | $(ram) | $(battery) | $( date +"%F %R" ) | "
+   if acpi -a | grep -q on-line; then
+	   ac="+"
+   else
+	   ac=""
+   fi
+
+   thermal=$(acpi -t | awk -F ' ' '{print $4 }')
    batt=$(acpi | awk -F ', ' '{ print $2 }' | paste -d ' ' - -)
-   xsetroot -name "| $batt | $(date +"%F %R")"
-   sleep 3m
+   xsetroot -name "| $ac $batt ($thermal°C) | $(date +"%F %R")"
+   sleep 20s
 done &
 
 exec dwm
