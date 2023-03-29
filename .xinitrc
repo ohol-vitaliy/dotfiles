@@ -8,6 +8,7 @@ compton &
 # volumeicon &
 
 feh --bg-scale ~/.config/wall.* &
+st &
 
 # betterlockscreen -u ~/.config/wall.*
 # betterlockscreen -w
@@ -44,7 +45,8 @@ while true; do
 
    thermal=$(acpi -t | awk -F ' ' '{print $4 }')
    batt=$(acpi | awk -F ', ' '{ print $2 }' | paste -d ' ' - -)
-   xsetroot -name "| $ac $batt ($thermal°C) | $(date +"%F %R")"
+   wifi=$(nmcli c show --active | grep wifi | awk '{print $1}')
+   xsetroot -name "| ${wifi:=NC} | $ac $batt ($thermal°C) | $(date +"%F %R") |"
    sleep 20s
 done &
 
