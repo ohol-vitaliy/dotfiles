@@ -269,10 +269,7 @@ fi
 if command -v curl >/dev/null 2>&1; then
 	alias myip="curl ifconfig.me/ip"
 	alias myhost="curl ifconfig.me/host"
-	alias wttr_warsaw="curl wttr.in/warsaw"
-	alias wttr_ternopil="curl wttr.in/ternopil"
-	alias wttr_buchach="curl wttr.in/buchach"
-	alias wttr_london="curl wttr.in/london"
+	wttr() { curl "wttr.in/$1" ; };
 else
 	echo "CURL is not installed"
 fi
