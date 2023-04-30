@@ -91,8 +91,6 @@ git config --global github.user "ohol-vitaliy"
 git config --global credential.helper "cache --timeout=10800"
 git config --global pull.rebase true
 
-clear
-
 if command -v neofetch >/dev/null 2>&1; then
 	neofetch
 else
