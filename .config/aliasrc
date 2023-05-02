@@ -233,6 +233,7 @@ if command -v git >/dev/null 2>&1; then
 	alias glg="git log --oneline --graph --abbrev-commit --branches"
 	alias gpl="git pull"
 	alias gpsh="git push"
+	alias gclean="git remote prune origin && git repack && git prune-packed && git reflog expire --expire=1.month.ago && git gc --aggressive"
 else
 	echo "GIT is not installed"
 fi
