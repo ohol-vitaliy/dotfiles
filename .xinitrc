@@ -1,7 +1,9 @@
 #!/bin/sh
 
-# pulseaudio -D &
-# dunst &
+dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY &
+
+pulseaudio -D &
+dunst &
 compton &
 # sxhkd &
 # nm-applet &
@@ -46,7 +48,9 @@ while true; do
    thermal=$(acpi -t | awk -F ' ' '{print $4 }')
    batt=$(acpi | awk -F ', ' '{ print $2 }' | paste -d ' ' - -)
    wifi=$(nmcli c show --active | grep wifi | awk '{print $1}')
-   xsetroot -name "| ${wifi:=NC} | $ac $batt ($thermal°C) | $(date +"%F %R") |"
+   bright=$(light -G)
+   vol=$(pulsemixer --get-volume)
+   xsetroot -name "| V $vol | B $bright | ${wifi:=NC} | $ac $batt ($thermal°C) | $(date +"%F %R") |"
    sleep 20s
 done &
 
