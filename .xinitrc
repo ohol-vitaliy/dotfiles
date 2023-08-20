@@ -50,9 +50,9 @@ while true; do
    fi
 
    thermal=$(acpi -t | awk -F ' ' '{print $4 }')
-   batt=$(acpi | awk -F ', ' '{ print $2 }' | paste -d ' ' - -)
+   batt=$(acpi | awk -F ', ' '{ print $2 }' | xargs -I {} sh -c "echo {} | dbar -nonl -w 10")
    wifi=$(nmcli c show --active | grep wifi | awk '{print $1}')
-   bright=$(brightnessctl -m | awk -F, '{ print $4 }')
+   bright=$(brightnessctl -m | awk -F, '{ print $4 }' | dbar -nonl -w 10)
    mute=$(pulsemixer --get-mute)
    volume=$(pulsemixer --get-volume)
 
@@ -60,7 +60,10 @@ while true; do
 	   volume="M"
    fi
 
-   xsetroot -name "| V $volume | B $bright | ${wifi:=NC} | $ac $batt ($thermal°C) | $(date +"%F %R") |"
+   topbar="| ${wifi:=NC} | $(date +"%F %R") |"
+   bottombar=" Vol: $volume | Bright:$bright |;| Bat: $ac$batt ($thermal°C) |"
+
+   xsetroot -name "$topbar;$bottombar"
    sleep 0.1s
 done &
 
