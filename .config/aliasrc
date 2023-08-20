@@ -363,15 +363,15 @@ function killallproc {
 # Mount Unit and Unmount Unit
 # && and || are essential at that places
 function mu { 
-	rm -r /mnt/"${1:?}"
-	mkdir /mnt/"$1" \
-		&& mount /dev/"$1" /mnt/"$1" \
+	sudo rm -r /mnt/"${1:?}"
+	sudo mkdir /mnt/"$1" \
+		&& sudo mount /dev/"$1" /mnt/"$1" \
 		&& cd /mnt/"$1" \
 		|| echo "Error"
 }
 function uu { 
-	umount /mnt/"$1"
-	rm -rf /mnt/"${1:?}"
+	sudo umount /mnt/"$1"
+	sudo rm -rf /mnt/"${1:?}"
 }
 
 # beautify users list

@@ -5,11 +5,15 @@ dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XA
 pulseaudio -D &
 dunst &
 compton &
+pcmanfm --daemon-mode &
 # sxhkd &
 # nm-applet &
 # volumeicon &
 
 feh --bg-scale ~/.config/wall.* &
+setxkbmap -option caps:escape 
+#-option grp:alt_shift_toggle us,ua
+
 st &
 
 # betterlockscreen -u ~/.config/wall.*
@@ -48,10 +52,16 @@ while true; do
    thermal=$(acpi -t | awk -F ' ' '{print $4 }')
    batt=$(acpi | awk -F ', ' '{ print $2 }' | paste -d ' ' - -)
    wifi=$(nmcli c show --active | grep wifi | awk '{print $1}')
-   bright=$(light -G)
-   vol=$(pulsemixer --get-volume)
-   xsetroot -name "| V $vol | B $bright | ${wifi:=NC} | $ac $batt ($thermal°C) | $(date +"%F %R") |"
-   sleep 20s
+   bright=$(brightnessctl -m | awk -F, '{ print $4 }')
+   mute=$(pulsemixer --get-mute)
+   volume=$(pulsemixer --get-volume)
+
+   if [ $mute -eq 1 ]; then
+	   volume="M"
+   fi
+
+   xsetroot -name "| V $volume | B $bright | ${wifi:=NC} | $ac $batt ($thermal°C) | $(date +"%F %R") |"
+   sleep 0.1s
 done &
 
 exec dwm
