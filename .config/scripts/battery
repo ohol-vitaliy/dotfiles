@@ -1,0 +1,14 @@
+#!/bin/bash
+acpi -abt | sort | awk -F "(,|:)" ' 
+/^Adapter.*on-line/ { printf "CHRG " }
+/^Batt/ { 
+	label = " " $1 ":"; 
+	gsub(/tery /, "", label)
+	command = "dbar -nonl -w 11 -l \"" label "\"";
+	print $3 | command;
+}
+/^Therm/ { 
+	therm = substr($3, 0, 5);
+	gsub(/\s+/, "", therm);
+	printf " (" therm "°C) ";
+}'

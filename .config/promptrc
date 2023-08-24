@@ -112,7 +112,7 @@ prompt_ps(){
 	fi
 
 	if [ -f "$SCRIPT_FOLDER/ram" ];then
-		PS1+="\\[${green}\\]RAM $($SCRIPT_FOLDER/ram)\n"
+		PS1+="\\[${green}\\]$($SCRIPT_FOLDER/ram)\n"
 	fi
 
 	if [ -f "$SCRIPT_FOLDER/uptime" ];then

@@ -1,0 +1,9 @@
+#!/bin/bash
+pulsemixer --get-mute --get-volume | awk '
+BEGIN { printf "Vol: " }  
+NR == 1 && $0 == "1"  { print "Mute"; exit; } 
+NR == 2 { 
+	command = "dbar -w 11" 
+	vol = ($1 + $2)/2;
+	printf vol | command
+}'

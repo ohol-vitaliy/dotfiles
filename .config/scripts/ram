@@ -1,4 +1,6 @@
-#!/bin/sh
-ram=$(grep Mem /proc/meminfo | awk '{ printf "%.2f ", $2/1048576 }' \
-    | awk '{printf "%.2f GB/%.2f GB", ($1-$3), $3 }')
-echo "$ram"
+#!/bin/bash
+awk '
+/MemTotal/ { total = $2/1024/1024 }
+/MemAvailable/ { avail = $2/1024/1024 }
+END { printf "RAM %.2f GB/%.2f GB", total-avail, avail }
+' /proc/meminfo

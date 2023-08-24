@@ -1,0 +1,2 @@
+#!/bin/bash
+nmcli c show --active | awk '/wifi/ {print $1}'
