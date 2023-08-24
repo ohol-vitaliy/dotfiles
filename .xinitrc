@@ -42,31 +42,45 @@ xinput set-prop --type=int --format=8 "SynPS/2 Synaptics TouchPad" "Synaptics Tw
 
 
 while true; do
-   # xsetroot -name " | $(keyboard) | $(bright) | $(volume) | $(ram) | $(battery) | $( date +"%F %R" ) | "
-   if acpi -a | grep -q on-line; then
-	   ac="+"
-   else
-	   ac=""
-   fi
+	batt=$(
+		acpi -abt | sort | awk -F "(,|:)" ' 
+		/^Adapter.*on-line/ { printf "CHRG " }
+		/^Batt/ { 
+			label = " " $1 ":"; 
+			gsub(/tery /, "", label)
+			command = "dbar -nonl -w 11 -l \"" label "\"";
+			print $3 | command;
+		}
+		/^Therm/ { 
+			therm = substr($3, 0, 5);
+			gsub(/\s+/, "", therm);
+			printf " (" therm "°C) ";
+		}'
+	)
+	ram=$(
+		awk '
+		/MemTotal/ { total = $2/1024/1024 }
+		/MemAvailable/ { avail = $2/1024/1024 }
+		END { printf "RAM %.2f GB/%.2f GB", total-avail, avail }
+		' /proc/meminfo
+	)
+	wifi=$(nmcli c show --active | awk '/wifi/ {print $1}')
+	bright=$(brightnessctl -m | awk -F, '{ print $4 }' | dbar -nonl -w 10 -l "Bright:")
+	volume=$(
+		pulsemixer --get-mute --get-volume | awk '
+		BEGIN { printf "Vol: " }  
+		NR == 1 && $0 == "1"  { printf "Mute"; exit; } 
+		NR == 2 { 
+			command = "dbar -nonl -w 11" 
+			vol = ($1 + $2)/2;
+			printf vol | command
+		}'
+	)
+	topbar="| ${wifi:=NC} | $ram | $(date +"%F %R") |"
+	bottombar=" $volume | $bright |;| $batt |"
 
-   thermal=$(acpi -t | awk -F ' ' '{print $4 }')
-   batt=$(acpi | awk -F ', ' '{ print $2 }' | xargs -I {} sh -c "echo {} | dbar -nonl -w 10")
-   ram=$(grep Mem /proc/meminfo | awk '{ printf "%.2f ", $2/1048576 }' \
-         | awk '{printf "%.2f GB/%.2f GB", ($1-$3), $3 }')
-   wifi=$(nmcli c show --active | grep wifi | awk '{print $1}')
-   bright=$(brightnessctl -m | awk -F, '{ print $4 }' | dbar -nonl -w 10)
-   mute=$(pulsemixer --get-mute)
-   volume=$(pulsemixer --get-volume)
-
-   if [ $mute -eq 1 ]; then
-	   volume="M"
-   fi
-
-   topbar="| ${wifi:=NC} | RAM $ram | $(date +"%F %R") |"
-   bottombar=" Vol: $volume | Bright:$bright |;| Bat: $ac$batt ($thermal°C) |"
-
-   xsetroot -name "$topbar;$bottombar"
-   sleep 0.1s
+	xsetroot -name "$topbar;$bottombar"
+	sleep 0.2s
 done &
 
 exec dwm
