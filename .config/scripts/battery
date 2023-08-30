@@ -1,5 +1,5 @@
 #!/bin/bash
-acpi -abt | sort | awk -F "(,|:)" ' 
+acpi -abt | sort -fh | awk -F "(,|:)" ' 
 /^Adapter.*on-line/ { printf "CHRG " }
 /^Batt/ { 
 	label = " " $1 ":"; 
