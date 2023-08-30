@@ -44,11 +44,12 @@ xinput set-prop --type=int --format=8 "SynPS/2 Synaptics TouchPad" "Synaptics Tw
 while true; do
 	batt=$(/home/zeroring/.config/scripts/battery)
 	ram=$(/home/zeroring/.config/scripts/ram)
+	cpu=$(/home/zeroring/.config/scripts/cpu)
 	wifi=$(/home/zeroring/.config/scripts/wifi)
 	bright=$(/home/zeroring/.config/scripts/bright)
 	volume=$(/home/zeroring/.config/scripts/volume)
 
-	topbar="| ${wifi:=NC} | $ram | $(date +"%F %R") |"
+	topbar="| ${wifi:=NC} | $cpu | $ram | $(date +"%F %R") |"
 	bottombar=" $volume | $bright |;| $batt |"
 
 	xsetroot -name "$topbar;$bottombar"
