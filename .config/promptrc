@@ -111,8 +111,8 @@ prompt_ps(){
 		PS1+="\\[${green}\\]${debian_chroot:+($debian_chroot)}\n"
 	fi
 
-	if [ -f "$SCRIPT_FOLDER/ram" ] && [ -f "$SCRIPT_FOLDER/cpu" ];then
-		PS1+="\\[${green}\\]$($SCRIPT_FOLDER/ram)      $($SCRIPT_FOLDER/cpu)\n"
+	if [ -f "$SCRIPT_FOLDER/ram" ];then
+		PS1+="\\[${green}\\]$($SCRIPT_FOLDER/ram)\n"
 	fi
 
 	if [ -f "$SCRIPT_FOLDER/uptime" ];then
