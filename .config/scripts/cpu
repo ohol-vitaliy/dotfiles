@@ -21,8 +21,10 @@
 
 cat <(grep 'cpu ' /proc/stat) <(sleep 1 && grep 'cpu ' /proc/stat) | awk -v RS="" '
 {
-	usage=$13-$2+$15-$4
-	idle=$16-$5
-	printf "CPU %.2f%%", usage*100/(usage+idle)
+	usage_first=$2+$3+$4+$7+$8;
+	usage_second=$13+$14+$15+$18+$19;
+	usage=usage_second-usage_first;
+	idle=$16-$5;
+	printf "CPU %.2f%%", usage*100/(usage+idle);
 }
 '

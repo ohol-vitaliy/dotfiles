@@ -1,10 +1,13 @@
 #!/bin/sh
 
+export _JAVA_AWT_WM_NONREPARENTING=1
+export AWT_TOOLKIT=MToolkit
 dbus-update-activation-environment --systemd DBUS_SESSION_BUS_ADDRESS DISPLAY XAUTHORITY &
 
 pulseaudio -D &
 dunst &
-compton &
+# compton &
+picom &
 pcmanfm --daemon-mode &
 # sxhkd &
 # nm-applet &
