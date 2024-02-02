@@ -93,9 +93,12 @@ alias get-network-interfaces="ip link show | egrep -o '[0-9]*: .*:' | tr -d ' ' 
 
 if command -v doas >/dev/null 2>&1; then
 	root_cmd='doas'
-else
+elif command -v sudo >/dev/null 2>&1; then
 	root_cmd='sudo'
+else
+	root_cmd=''
 fi
+
 alias sudo="$root_cmd " # sudo to work with aliases
 
 if command -v info >/dev/null 2>&1; then
@@ -112,13 +115,6 @@ if command -v pacman >/dev/null 2>&1; then
 	alias pacl="$root_cmd pacman -Q"
 	alias pacl-auto="$root_cmd pacman -Qd"
 	alias pacl-manual="$root_cmd pacman -Qe"
-elif command -v pkg >/dev/null 2>&1; then
-	echo "Using PKG package manager"
-	alias paci="pkg install"
-	alias pacr="pkg purge"
-	alias pacs="pkg search"
-	alias pacu="pkg update && pkg upgrade"
-	alias pacc="pkg autoclean && pkg autoremove"
 elif command -v apt >/dev/null 2>&1; then
 	echo "Using APT package manager"
 	alias paci="$root_cmd apt install"
@@ -131,6 +127,13 @@ elif command -v apt >/dev/null 2>&1; then
 	alias pacl-auto="$root_cmd apt-mark showauto"
 	alias pacl-manual="$root_cmd apt-mark showmanual"
 	alias pac-auto2manual="$root_cmd apt-mark showauto | xargs -n 1 $root_cmd apt-mark manual"
+elif command -v pkg >/dev/null 2>&1; then
+	echo "Using PKG package manager"
+	alias paci="pkg install"
+	alias pacr="pkg purge"
+	alias pacs="pkg search"
+	alias pacu="pkg update && pkg upgrade"
+	alias pacc="pkg autoclean && pkg autoremove"
 fi
 
 if command -v emacs-nox >/dev/null 2>&1; then
