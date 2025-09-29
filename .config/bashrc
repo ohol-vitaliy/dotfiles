@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 bind 'set completion-ignore-case on'
 bind 'set show-all-if-ambiguous on'
 bind 'TAB:menu-complete'
@@ -50,8 +50,25 @@ fi
 export HISTFILE=$HOME/.config/cl_history
 export SAVEHIST=200000000
 export HISTSIZE=20000000000
+export HISTIGNORE="$(paste -sd: - <<EOF
+&
+pstree*:tree*
+off:reboot:poweroff
+top:htop:cls:clear:env:startx:pwd
+tmux*
+g[acdl] *:gpsh:gpl
+[bf]g:jobs:exit
+free*:stat:stat *:oo:oo *:man:man *:ps:ps *
+history:hist:hist *
+vim:vim *
+
+pac[luc]:pacr *
+d[fu]:d[fu] *:l[sla]:l[sla] *
+[echk]
+EOF
+)"
+# printf 'HISTIGNORE: %s\n' "$HISTIGNORE"
 export HISTCONTROL=ignoreboth:erasedups
-export HISTIGNORE="df*:free*:&:ls:[bf]g:history:exit"
 
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 export XDG_CONFIG_HOME="$HOME/.config"
@@ -80,7 +97,7 @@ if ! shopt -oq posix; then
 	fi
 fi
 if [ -d /etc/bash_completion.d/ ]; then
-	for file in /etc/bash_completion.d/* ; do
+	for file in /etc/bash_completion.d/*; do
 		source "$file"
 	done
 fi
@@ -91,7 +108,11 @@ git config --global github.user "ohol-vitaliy"
 git config --global credential.helper "cache --timeout=10800"
 git config --global pull.rebase true
 
-if command -v _ufetch >/dev/null 2>&1; then
+# if cat /etc/os-release | head -1 | grep -q -i alpine && command -v _ufetch.alpine; then
+# 	_ufetch.alpine
+if cat /etc/os-release | head -1 | grep -q -i debian && command -v _ufetch.debian; then
+	_ufetch.debian
+elif command -v _ufetch >/dev/null 2>&1; then
 	_ufetch
 elif command -v ufetch >/dev/null 2>&1; then
 	ufetch
@@ -103,6 +124,6 @@ elif command -v pfetch >/dev/null 2>&1; then
 	pfetch
 fi
 
-[ -f $HOME/.config/promptrc ]                  && source $HOME/.config/promptrc
-[ -f $HOME/.config/aliasrc ]                   && source $HOME/.config/aliasrc
-[ -f $HOME/.fzf.bash ]                         && source $HOME/.fzf.bash
+[ -f $HOME/.config/promptrc ] && source $HOME/.config/promptrc
+[ -f $HOME/.config/aliasrc ] && source $HOME/.config/aliasrc
+[ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
